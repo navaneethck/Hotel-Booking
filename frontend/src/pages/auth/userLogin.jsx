@@ -1,7 +1,12 @@
 import { useState } from 'react';
+import { UseUserContext } from '../../contexts/userContext';
+import {  useNavigate } from 'react-router-dom';
+
 
 const Login = () => {
   const [data,setData]=useState({email:'',password:''});
+  const {setUser} = UseUserContext();
+  const navigate = useNavigate();
 
   const getFormData =(e)=>{
     const{name,value}= e.target;
@@ -19,17 +24,25 @@ const Login = () => {
     try{
     const response = await fetch(`${import.meta.env.VITE_API_URI}/api/auth/login`,{
       method:'POST',
+      credentials:'include',
       headers:{
-        'Content-Type':'application/json'
+        'Content-Type':'application/json',
       },
       body:JSON.stringify(data)
     })
+
     const result = await response.json();
     console.log('response from the backend',result);
-    console.log('Status:', response.status); 
-     alert(result?.message||'something went wrong');
+
+    if(response.ok){
+      setUser(result.user);
+      navigate('/');
+    }else{
+        alert(result?.message||'something went wrong');
+    }
 
      setData({email:'',password:''});
+     
   }catch(err){
     console.log('error from catch',err)
   }
