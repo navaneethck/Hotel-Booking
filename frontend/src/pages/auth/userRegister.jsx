@@ -34,6 +34,7 @@ const Register = () => {
       alert(result?.message||'something went wrong');
       
       setData({ name: '', email: '', password: '' });
+      
 
     }catch(error){
         console.error("Error:", error);
