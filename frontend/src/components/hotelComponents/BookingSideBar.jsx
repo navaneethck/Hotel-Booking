@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 export const BookingSidebar = () => (
   <div className="bg-white p-6 rounded-lg shadow-md sticky top-6">
@@ -26,9 +27,11 @@ export const BookingSidebar = () => (
       </div>
     </div>
 
+    <Link to={'/bookingsummary'}>
     <button className="w-full px-6 py-3 bg-yellow-400 text-black font-semibold rounded-lg hover:bg-yellow-300 mb-4">
       Book Now
     </button>
+    </Link>
 
     <div className="text-center text-sm text-gray-600">
       <p>✓ Free cancellation until 24 hours before check-in</p>

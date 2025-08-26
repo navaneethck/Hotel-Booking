@@ -5,6 +5,8 @@ import Login from "../pages/auth/userLogin";
 import { UserProvider } from "../contexts/userContext";
 import SearchResultsMain from '../pages/SearchResultMain.jsx'
 import HotelDetails from "../pages/HotelDetails.jsx";
+import BookingSummaryPage from "../pages/BookingSummary.jsx";
+import MyBookings from "../pages/MyBookings.jsx";
 
 
 const AppRouter = ()=>{
@@ -17,6 +19,8 @@ const AppRouter = ()=>{
                 <Route path="/login" element={<Login/>} />
                 <Route path="/searchresults" element={<SearchResultsMain/>}/>
                 <Route path="/hoteldetails" element={<HotelDetails/>} />
+                <Route path="/bookingsummary" element={<BookingSummaryPage/>}/>
+                <Route path="/myprofile" element={<MyBookings/>}/>
             </Routes>
         </Router>
         </UserProvider>

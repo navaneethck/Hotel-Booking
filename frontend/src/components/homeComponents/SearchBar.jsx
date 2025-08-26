@@ -7,7 +7,6 @@ export const SearchBar = () => {
   <section className="bg-purple-600 py-10">
     <div className="max-w-5xl mx-auto text-center text-white">
       <h2 className="text-3xl font-bold mb-6">Find your perfect stay</h2>
-      <h3 className="text-2xl font-bold mb-6">{user?user.name:"Guest"}</h3>
       <div className="flex flex-col md:flex-row gap-4 justify-center bg-white p-4 rounded-lg shadow-lg">
         <input
           type="text"

@@ -18,8 +18,8 @@ const HotelDetails = () => {
       <div className="max-w-7xl mx-auto py-6 px-4">
        
         <div className="mb-4">
-          <button className="text-blue-600 hover:underline">← Back to search results</button>
-          <Link to={'/searchresults'}></Link>
+         
+          <Link to={'/searchresults'}> <button className="text-blue-600 hover:underline">← Back to search results</button></Link>
         </div>
 
        
