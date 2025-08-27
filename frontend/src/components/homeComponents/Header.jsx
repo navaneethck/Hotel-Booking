@@ -29,19 +29,14 @@
           </div>
           </div>
          
-        ):<> (<button className="px-4 py-2 bg-white text-blue-700 rounded-lg font-semibold hover:bg-gray-200">
+        ):<> <button className="px-4 py-2 bg-white text-blue-700 rounded-lg font-semibold hover:bg-gray-200">
           
-          <Link to='/login' className="block px-4 py-2 hover:bg-gray-500">Login</Link>
-      
-        </button>
-          <button className="px-4 py-2 bg-white text-blue-700 rounded-lg font-semibold hover:bg-gray-200">
-          
-          <Link to='/myprofile'> Myprofile</Link>
+          <Link to='/login'>Login</Link>
       
         </button>
         <button className="px-4 py-2 bg-yellow-400 text-black rounded-lg font-semibold hover:bg-yellow-300">
          <Link to='/register'> Sign Up </Link>
-        </button>)</>}
+        </button></>}
       
       </div>
     </div>

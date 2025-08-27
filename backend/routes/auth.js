@@ -57,7 +57,7 @@ router.post('/login',async (req,res)=>{
     httpOnly: true,         // ✅ JS can't access
     secure: false,           // ✅ Only over HTTPS (set false for localhost dev)
     sameSite: "Lax",        // ✅ CSRF protection
-    maxAge: 24 * 60 * 60 * 1000 // 1 day in ms
+    maxAge: 10 * 60 * 1000 // 10 minutes 
     });
 
     res.json({
