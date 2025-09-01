@@ -1,19 +1,44 @@
 const express = require('express');
 const Hotel = require('../models/hotelModel');
+const TrendingLocation = require('../models/trendingLocation');
 const {auth,adminAuth} = require('../middleware/auth');
 const router=express.Router();
+const {uploadHotel,uploadTrendingLocation}= require('../config/multer');
 
 //ading new hotel admin side
-router.post('/Add-Hotel',adminAuth,async (req,res)=>{
+router.post('/Add-Hotel',adminAuth,uploadHotel.array('images',10),async (req,res)=>{
     try{
-        const {name, location, description, images, price, amenities,rooms,rating,address,contact,availability,roomTypes, bookingPolicy }=req.body;
+        const {name, location, description, price, amenities,rooms,rating,address,contact,availability,roomTypes, bookingPolicy }=req.body;
+        const imageUrls = req.files.map((file)=>file.path);
 
-        const hotel= new Hotel({name, location, description, images, price, amenities,rooms,rating,address,contact,availability,roomTypes, bookingPolicy })
+        const hotel= new Hotel({name, location, description, images:imageUrls, price, amenities,rooms,rating,address,contact,availability,roomTypes, bookingPolicy })
 
         await hotel.save();
         res.status(201).json({hotel,message:"successfully added"})
     }catch(error){
         res.status(500).json({ message: error.message });
+    }
+})
+
+//for the trending location 
+router.post('/add-trendingLocation',uploadTrendingLocation.single('image'),async (req,res)=>{
+    try{
+        const {name}=req.body;
+        const imageUrl = req.file.path;
+
+        const newLocation = new TrendingLocation({
+            name,
+            images:[imageUrl]
+        })
+
+        await newLocation.save();
+        res.status(200).json({
+            newLocation,
+            message:'successfuly trending location added'
+        })
+
+    }catch(error){
+         res.status(500).json({ message: error.message });
     }
 })
 //to get all hotel
