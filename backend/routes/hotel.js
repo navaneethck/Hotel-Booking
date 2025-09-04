@@ -5,6 +5,7 @@ const {auth,adminAuth} = require('../middleware/auth');
 const router=express.Router();
 const {uploadHotel,uploadTrendingLocation}= require('../config/multer');
 
+
 //ading new hotel admin side
 router.post('/Add-Hotel',adminAuth,uploadHotel.array('images',10),async (req,res)=>{
     try{
@@ -25,7 +26,6 @@ router.post('/add-trendingLocation',uploadTrendingLocation.single('image'),async
     try{
         const {name}=req.body;
         const imageUrl = req.file.path;
-
         const newLocation = new TrendingLocation({
             name,
             images:[imageUrl]
@@ -36,9 +36,17 @@ router.post('/add-trendingLocation',uploadTrendingLocation.single('image'),async
             newLocation,
             message:'successfuly trending location added'
         })
-
     }catch(error){
          res.status(500).json({ message: error.message });
+    }
+})
+//to get trending location 
+router.get('/trending-location',async(req,res)=>{
+    try{
+        const location = await TrendingLocation.find();
+        res.status(200).json(location);
+    }catch(error){
+        res.status(500).json({message:error.message})
     }
 })
 //to get all hotel
