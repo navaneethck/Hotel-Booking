@@ -5,21 +5,45 @@ const {auth,adminAuth} = require('../middleware/auth');
 const router=express.Router();
 const {uploadHotel,uploadTrendingLocation}= require('../config/multer');
 
-
-//ading new hotel admin side
-router.post('/Add-Hotel',adminAuth,uploadHotel.array('images',10),async (req,res)=>{
-    try{
-        const {name, location, description, price, amenities,rooms,rating,address,contact,availability,roomTypes, bookingPolicy }=req.body;
-        const imageUrls = req.files.map((file)=>file.path);
-
-        const hotel= new Hotel({name, location, description, images:imageUrls, price, amenities,rooms,rating,address,contact,availability,roomTypes, bookingPolicy })
-
-        await hotel.save();
-        res.status(201).json({hotel,message:"successfully added"})
-    }catch(error){
-        res.status(500).json({ message: error.message });
+// //ading new hotel admin side
+router.post('/Add-Hotel', adminAuth, (req, res, next) => {
+  uploadHotel.array('images', 10)(req, res, async function (err) {
+    if (err) {
+      return res.status(400).json({ message: err.message });
     }
-})
+    try {
+      function trimStrings(obj) {
+        if (typeof obj === 'string') return obj.trim();
+        if (Array.isArray(obj)) return obj.map(trimStrings);
+        if (typeof obj === 'object' && obj !== null) {
+          const newObj = {};
+          for (const key in obj) newObj[key] = trimStrings(obj[key]);
+          return newObj;
+        }
+        return obj;
+      }
+
+      const cleanedBody = trimStrings(req.body);
+      const imageUrls = req.files ? req.files.map(file => file.path) : [];
+
+      const hotel = new Hotel({
+        ...cleanedBody,
+        availability: cleanedBody.availability === 'true',
+        images: imageUrls,
+        roomTypes: cleanedBody.roomTypes.map(r => ({
+          name: r.name,
+          price: Number(r.price),
+          totalRooms: Number(r.totalRooms)
+        }))
+      });
+
+      await hotel.save();
+      res.status(201).json({ hotel, message: "successfully added" });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+});
 
 //for the trending location 
 router.post('/add-trendingLocation',uploadTrendingLocation.single('image'),async (req,res)=>{

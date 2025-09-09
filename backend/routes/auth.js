@@ -38,36 +38,33 @@ router.post('/login',async (req,res)=>{
      if(!user){
         return res.status(400).json({message:"user not found"})
      }
-
      const checkMatch = await bcrypt.compare(password,user.password);
-
      if(!checkMatch){
         return res.status(400).json({message:'invalid password'});
      }
-
      const token =jwt.sign({
         userId:user._id,
         role: user.role
      },
     process.env.JWT_SECRET,
-    {expiresIn:'1d'});
-
+    {expiresIn:'1d'}
+);
 
     res.cookie("token", token, {
     httpOnly: true,         // ✅ JS can't access
     secure: false,           // ✅ Only over HTTPS (set false for localhost dev)
     sameSite: "Lax",        // ✅ CSRF protection
-    maxAge: 10 * 60 * 1000 // 10 minutes 
+    maxAge: 24 * 60 * 60 * 1000 // one day 
     });
 
     res.json({
         message: "Login successful",
+        token,
         user:{ id: user._id,
               name: user.name,
               email: user.email,
               role: user.role}
     })
-
 
    }catch(error){
     res.status(500).json({message:error.message});
