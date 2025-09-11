@@ -30,7 +30,7 @@ export const SearchBar = (props) => {
  const {checkIn, checkOut, setCheckOut, handleCheckInChange, formatDate, today } =DatePicker();
 
    return (
-  <section className="bg-purple-600 py-10">
+  <section className="bg-purple-600 py-10 mt-15">
     <div className="max-w-5xl mx-auto text-center text-white">
       <h2 className="text-3xl font-bold mb-6">Find your perfect stay</h2>
       <div className="flex flex-col md:flex-row gap-4 justify-center bg-white p-4 rounded-lg shadow-lg">

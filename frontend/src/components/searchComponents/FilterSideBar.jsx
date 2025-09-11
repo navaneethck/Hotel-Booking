@@ -1,5 +1,5 @@
 export const FilterSidebar = () => (
-  <div className="bg-white p-6 rounded-lg shadow-md h-fit">
+  <div className="bg-white p-6 rounded-lg shadow-md h-fit ">
     <h3 className="text-lg font-bold mb-4">Filters</h3>
     
     <div className="mb-6">

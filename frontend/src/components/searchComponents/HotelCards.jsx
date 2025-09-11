@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 export const HotelCards = () => (
   <div className="space-y-6">
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg">
-      <div className="md:flex">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg ">
+      <div className="md:flex"> 
         <div className="md:w-1/3">
           <img src="https://via.placeholder.com/400x300?text=Hotel+1" alt="Hotel" className="w-full h-48 md:h-full object-cover" />
         </div>

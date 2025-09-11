@@ -21,7 +21,7 @@ export const TopHotels = () => {
     }
     fetchTopHotels()
   },[])
-  const imageIndexs = [2,3,1]
+  const imageIndexs = [2,3,4]
   return (
     <section className="max-w-7xl mx-auto py-10">
       <h3 className="text-2xl font-bold mb-6">Top Rated Hotels</h3>
