@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { UseUserContext } from "../../contexts/userContext";
 import { useState } from "react";
 
@@ -24,10 +24,35 @@ const DatePicker = ()=>{
   }
    return { checkIn, checkOut, setCheckOut, handleCheckInChange, formatDate, today };
 };
-
-export const SearchBar = (props) => {
+const searchDestination = ()=>{
+   const [destination,setDestination] = useState("")
+   const handleDestination=(e)=>{
+      const newDestination = e.target.value;
+      setDestination(newDestination)
+   }
+   return {handleDestination,destination};
+};
+const guests = ()=>{
+  const [guest,setGuest] = useState("");
+  const handleGuest = (e)=>{
+  const Newguest = e.target.value;
+  setGuest(Newguest);
+  }
+  return {handleGuest,guest};
+}
+export const SearchBar = () => {
  const{user}= UseUserContext();
+ const navigate = useNavigate();
  const {checkIn, checkOut, setCheckOut, handleCheckInChange, formatDate, today } =DatePicker();
+ const {handleDestination,destination} = searchDestination();
+ const {handleGuest,guest} = guests();
+
+ const params = new URLSearchParams({
+  destination:destination,
+  checkIn:checkIn,
+  checkOut:checkOut,
+  guest:guest
+ })
 
    return (
   <section className="bg-purple-600 py-10 mt-15">
@@ -38,6 +63,8 @@ export const SearchBar = (props) => {
           type="text"
           placeholder="Search destination"
           className="flex-1 p-3 rounded-md border text-black "
+          value={destination}
+          onChange={handleDestination}
         />
         <div className="flex flex-col">
         <label className="text-sm font-semibold mb-1 text-gray-700">Check-In</label>
@@ -52,9 +79,12 @@ export const SearchBar = (props) => {
           min="1"
           placeholder="Guests"
           className="p-3 rounded-md border w-28 text-black"
+          value={guest}
+          onChange={handleGuest}
         />
-        <button className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700">
-          <Link to='/searchresults'>Search</Link>
+        <button className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700" onClick={()=>navigate('/searchresults?'+params.toString())}>
+          {/* <Link to='/searchresults'>Search</Link> */} 
+          Search
         </button>
       </div>
     </div>
