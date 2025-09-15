@@ -103,14 +103,17 @@ router.get('/search',async (req,res)=>{
         //removing all space 
         const formattedDestination = destination.replace(/\s+/g, ''); 
         const queryHotel = await Hotel.find({ location: { $regex: formattedDestination, $options: 'i' } });
+        
+        
         //for testing 
         if(queryHotel.length===0){
             console.log('cannot query the hotel from db')
+           return res.status(404).json({message:'No result found'})
         }
         // }else{
         //     console.log(`the all query hotel ${queryHotel}`)
         // }
-      
+    
 
         // if(minPrice || maxPrice){  
         //     queryHotel.price={};
@@ -123,8 +126,8 @@ router.get('/search',async (req,res)=>{
         // }
 
         // const query=await Hotel.aggregate([{$match:queryHotel}]);
-
         res.json(queryHotel);
+        
 
     }catch(error){
          res.status(500).json({ message: error.message });

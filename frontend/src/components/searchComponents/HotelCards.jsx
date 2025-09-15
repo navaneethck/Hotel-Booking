@@ -2,32 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 
-export const HotelCards = () =>{
-  const [hotel,setHotel] = useState([]);
-  const [searchParams] = useSearchParams();
-  const destination = searchParams.get("destination"); // string value
+export const HotelCards = ({hotel,message}) =>{
 
-  useEffect(()=>{
-    const fetchHotel = async()=>{
-      try{
-        const response = await fetch(`${import.meta.env.VITE_API_URI}/api/hotels/search?destination=${encodeURIComponent(destination)}`,{
-          credentials:'include',
-          method:'GET'
-        })
-        if(!response.ok){
-           return console.log('cannot fetch Hotels')
-        }
-        console.log("Fetching hotels for:", destination);
-        console.log("Request URL:", `${import.meta.env.VITE_API_URI}/api/hotels/search?destination=${encodeURIComponent(destination)}`);
-
-        const data = await response.json();
-        setHotel(data);
-      }catch(err){
-        console.error(err)
-      }
-    }
-    if (destination)fetchHotel()
-},[destination])
  const amenityIcons = {
   "lake view": { icon: "🌅", label: "Lake View" },
    "spa": { icon: "💆", label: "Spa" },
@@ -39,9 +15,8 @@ export const HotelCards = () =>{
 };
   return(
   <div className="space-y-6">
-    {hotel.length>0?(
-      hotel.map((hotel)=>(
-      <div  key={hotel._id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg ">
+    {hotel?(
+      <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg ">
       <div className="md:flex"> 
         <div className="md:w-1/3">
           <img src={hotel.images?.[0]} alt="Hotel" className="w-full h-48 md:h-full object-cover" />
@@ -63,7 +38,7 @@ export const HotelCards = () =>{
           </div>
           <div className="flex items-center mb-4">
             <div className="flex space-x-4 text-xs text-gray-600">
-              {hotel.amenities.map((amenity) => {
+            {hotel.amenities.map((amenity) => {
             const key = amenity.toLowerCase().trim();
             const match = amenityIcons[key];
             return (
@@ -96,12 +71,10 @@ export const HotelCards = () =>{
         </div>
       </div>
     </div>
-      ))
-    ): (
-        <p>No hotels found</p>
-      )}
-
-
+      
+    ):message?(
+        <p className="text-center text-gray-600">{message}</p>
+      ):null}
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg">
       <div className="md:flex">
         <div className="md:w-1/3">
