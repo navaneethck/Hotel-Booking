@@ -95,27 +95,34 @@ router.get('/All-Hotel',auth,async (req,res)=>{
     }
 })
 
-router.get('/search/:location',auth,async (req,res)=>{
+router.get('/search',async (req,res)=>{
     try{
-        const {location}=req.params;
-        const {minPrice,maxPrice}=req.query;
+        const {destination}=req.query;
+        // const {minPrice,maxPrice}=req.query;
+        console.log("Query received:", req.query);
 
-        const queryHotel = {location:{$regex:location,$options:'i'}}
+        const queryHotel = await Hotel.find({ location: { $regex: destination, $options: 'i' } });
+        //for testing 
+        if(queryHotel.length===0){
+            console.log('cannot query the hotel from db')
+        }else{
+            console.log(`the all query hotel ${queryHotel}`)
+        }
       
 
-        if(minPrice || maxPrice){  
-            queryHotel.price={};
+        // if(minPrice || maxPrice){  
+        //     queryHotel.price={};
 
-            if(minPrice){
-                queryHotel.price.$gte=Number(minPrice)
-            }else if(maxPrice){
-                 queryHotel.price.$lte=Number(maxPrice)
-            }
-        }
+        //     if(minPrice){
+        //         queryHotel.price.$gte=Number(minPrice)
+        //     }else if(maxPrice){
+        //          queryHotel.price.$lte=Number(maxPrice)
+        //     }
+        // }
 
-        const query=await Hotel.aggregate([{$match:queryHotel}]);
+        // const query=await Hotel.aggregate([{$match:queryHotel}]);
 
-        res.json(query);
+        res.json(queryHotel);
 
     }catch(error){
          res.status(500).json({ message: error.message });

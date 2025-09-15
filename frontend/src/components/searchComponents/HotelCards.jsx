@@ -1,24 +1,54 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
-export const HotelCards = () => (
+export const HotelCards = () =>{
+  const [hotel,setHotel] = useState([]);
+  const [searchParams] = useSearchParams();
+  const destination = searchParams.get("destination"); // string value
+
+  useEffect(()=>{
+    const fetchHotel = async()=>{
+      try{
+        const response = await fetch(`${import.meta.env.VITE_API_URI}/api/hotels/search?destination=${encodeURIComponent(destination)}`,{
+          credentials:'include',
+          method:'GET'
+        })
+        if(!response.ok){
+           return console.log('cannot fetch Hotels')
+        }
+        console.log("Fetching hotels for:", destination);
+        console.log("Request URL:", `${import.meta.env.VITE_API_URI}/api/hotels/search?destination=${encodeURIComponent(destination)}`);
+
+        const data = await response.json();
+        setHotel(data);
+      }catch(err){
+        console.error(err)
+      }
+    }
+    if (destination)fetchHotel()
+  },[destination])
+  return(
   <div className="space-y-6">
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg ">
+    {hotel.length>0?(
+      hotel.map((hotel)=>(
+      <div  key={hotel._id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg ">
       <div className="md:flex"> 
         <div className="md:w-1/3">
-          <img src="https://via.placeholder.com/400x300?text=Hotel+1" alt="Hotel" className="w-full h-48 md:h-full object-cover" />
+          <img src={hotel.images?.[0]} alt="Hotel" className="w-full h-48 md:h-full object-cover" />
         </div>
         <div className="md:w-2/3 p-6">
           <div className="flex justify-between items-start mb-2">
             <div>
-              <h3 className="text-xl font-bold text-gray-900">Ocean Paradise Resort</h3>
-              <p className="text-sm text-gray-600">📍 Candolim Beach, Goa</p>
+              <h3 className="text-xl font-bold text-gray-900">{hotel.name}</h3>
+              <p className="text-sm text-gray-600">📍 {hotel.location}</p>
               <div className="flex items-center mb-2">
                 <span className="text-yellow-400">⭐⭐⭐⭐⭐</span>
                 <span className="ml-2 text-sm text-gray-600">5 Star Hotel</span>
               </div>
             </div>
             <div className="text-right">
-              <div className="text-2xl font-bold text-blue-700">₹8,500</div>
+              <div className="text-2xl font-bold text-blue-700">{hotel.price}</div>
               <div className="text-sm text-gray-600">per night</div>
             </div>
           </div>
@@ -49,6 +79,11 @@ export const HotelCards = () => (
         </div>
       </div>
     </div>
+      ))
+    ): (
+        <p>No hotels found</p>
+      )}
+
 
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg">
       <div className="md:flex">
@@ -99,4 +134,4 @@ export const HotelCards = () => (
       </div>
     </div>
   </div>
-);
+)};
