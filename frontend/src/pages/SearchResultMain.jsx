@@ -6,7 +6,7 @@ import { Header } from "../components/searchComponents/Header";
 
 const SearchResultsMain = () => {
   return (
-    <div className="min-h-screen bg-gray-50 mt-36">
+    <div className="min-h-screen bg-gray-50 mt-52">
       <Header/>
       <SearchBar/>
       

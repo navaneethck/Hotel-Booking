@@ -99,15 +99,17 @@ router.get('/search',async (req,res)=>{
     try{
         const {destination}=req.query;
         // const {minPrice,maxPrice}=req.query;
-        console.log("Query received:", req.query);
-
-        const queryHotel = await Hotel.find({ location: { $regex: destination, $options: 'i' } });
+        console.log("Query received:", req.query);  
+        //removing all space 
+        const formattedDestination = destination.replace(/\s+/g, ''); 
+        const queryHotel = await Hotel.find({ location: { $regex: formattedDestination, $options: 'i' } });
         //for testing 
         if(queryHotel.length===0){
             console.log('cannot query the hotel from db')
-        }else{
-            console.log(`the all query hotel ${queryHotel}`)
         }
+        // }else{
+        //     console.log(`the all query hotel ${queryHotel}`)
+        // }
       
 
         // if(minPrice || maxPrice){  

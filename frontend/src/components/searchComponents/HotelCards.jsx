@@ -27,7 +27,16 @@ export const HotelCards = () =>{
       }
     }
     if (destination)fetchHotel()
-  },[destination])
+},[destination])
+ const amenityIcons = {
+  "lake view": { icon: "🌅", label: "Lake View" },
+   "spa": { icon: "💆", label: "Spa" },
+  "nature view": { icon: "🌲", label: "Nature View" },
+  "pool": { icon: "🏊", label: "Pool" },
+  "luxury dining": { icon: "🍷", label: "Luxury Dining" },
+  "airport shuttle": { icon: "🚌", label: "Airport Shuttle" },
+  "free wi-fi": { icon: "🛜", label: "Free Wi-fi" },
+};
   return(
   <div className="space-y-6">
     {hotel.length>0?(
@@ -42,7 +51,7 @@ export const HotelCards = () =>{
             <div>
               <h3 className="text-xl font-bold text-gray-900">{hotel.name}</h3>
               <p className="text-sm text-gray-600">📍 {hotel.location}</p>
-              <div className="flex items-center mb-2">
+              <div className="flex items-center pt-5">
                 <span className="text-yellow-400">⭐⭐⭐⭐⭐</span>
                 <span className="ml-2 text-sm text-gray-600">5 Star Hotel</span>
               </div>
@@ -52,13 +61,21 @@ export const HotelCards = () =>{
               <div className="text-sm text-gray-600">per night</div>
             </div>
           </div>
-          
           <div className="flex items-center mb-4">
             <div className="flex space-x-4 text-xs text-gray-600">
-              <span>🌐 WiFi</span>
-              <span>🚗 Parking</span>
-              <span>🍽️ Restaurant</span>
-              <span>🏋️ Gym</span>
+              {hotel.amenities.map((amenity) => {
+            const key = amenity.toLowerCase().trim();
+            const match = amenityIcons[key];
+            return (
+              <div key={key}>
+                {match ? (
+                  <span>{match.icon} {match.label}</span>
+                ) : (
+                  <span> {amenity}</span> 
+                )}
+              </div>
+            );
+          })}
             </div>
           </div>
 
