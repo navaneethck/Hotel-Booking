@@ -3,14 +3,27 @@ import { Footer } from "../components/searchComponents/Footer";
 import { HotelCards } from "../components/searchComponents/HotelCards";
 import { SearchBar } from "../components/searchComponents/SearchBar";
 import { Header } from "../components/searchComponents/Header";
-import { useSearchParams } from "react-router-dom";
-import { useState,useEffect} from "react";
+import { useAsyncValue, useSearchParams } from "react-router-dom";
+import { useState,useEffect, useMemo} from "react";
 
 const SearchResultsMain = () => {
     const [hotels,setHotel] = useState([]);
     const [message,setMessage] = useState("")
-  const [searchParams] = useSearchParams();
-  const destination = searchParams.get("destination"); 
+    const [searchParams] = useSearchParams();
+    const destination = searchParams.get("destination"); 
+    const [sortOption,setSortOption] = useState("Recommended")
+    
+    const sortedHotel = useMemo(()=>{
+      if(sortOption ==="Recommended") return hotels;
+      const HotelCopy = [...hotels];
+      if(sortOption ==="Price: Low to High") {
+        return HotelCopy.sort((a,b)=>a.price - b.price)
+      }
+      if(sortOption ==="Price: High to Low") {
+        return HotelCopy.sort((a,b)=>b.price - a.price)
+      }
+      return HotelCopy;
+    },[hotels,sortOption])
 
   useEffect(()=>{
     const fetchHotel = async()=>{
@@ -31,7 +44,6 @@ const SearchResultsMain = () => {
           setHotel([]);
           setMessage(parsedData.message || "No hotels found");
         }
-        console.log(parsedData.message);
 
       }catch(err){
         console.error(err)
@@ -48,11 +60,13 @@ const SearchResultsMain = () => {
         <div className="flex justify-between items-center mb-6">
           <div>
             <h2 className="text-2xl font-bold text-gray-900">Hotels at your chosen destination</h2>
-            <p className="text-gray-600">125 properties found</p>
+            <p className="text-gray-600">{hotels.length} properties found</p>
           </div>
           <div className="flex items-center space-x-4">
             <span className="text-sm text-gray-600">Sort by:</span>
-            <select className="p-2 border rounded-md">
+            <select className="p-2 border rounded-md"
+             value={sortOption}
+             onChange={(e)=>setSortOption(e.target.value)}>
               <option>Recommended</option>
               <option>Price: Low to High</option>
               <option>Price: High to Low</option>
@@ -66,7 +80,7 @@ const SearchResultsMain = () => {
           </div>
           <div className="w-3/4 space-y-6">
             {hotels.length>0?
-                  (hotels.map((h) => (
+                  (sortedHotel.map((h) => (
           <HotelCards key={h._id} hotel={h}/>
         ))):(
           <HotelCards message={message}/>

@@ -103,8 +103,7 @@ router.get('/search',async (req,res)=>{
         //removing all space 
         const formattedDestination = destination.replace(/\s+/g, ''); 
         const queryHotel = await Hotel.find({ location: { $regex: formattedDestination, $options: 'i' } });
-        
-        
+
         //for testing 
         if(queryHotel.length===0){
             console.log('cannot query the hotel from db')

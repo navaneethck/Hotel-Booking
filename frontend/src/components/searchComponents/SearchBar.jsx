@@ -4,7 +4,7 @@ export const SearchBar = () => {
   const [searchParams] = useSearchParams();
   const {destination,checkIn,checkOut,guest}= Object.fromEntries(searchParams.entries());
    return(
-  <section className="bg-purple-500 py-10 fixed top-16 left-0 w-full h-20">
+  <section className="bg-purple-600 py-10 fixed top-16 left-0 w-full h-20">
     <div className="max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row gap-4 bg-white p-4 rounded-lg shadow-lg">
         <input type="text" placeholder="Search destination" className="flex-1 p-3 rounded-md border" defaultValue={destination}/>
