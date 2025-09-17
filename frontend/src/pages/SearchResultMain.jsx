@@ -64,7 +64,7 @@ const SearchResultsMain = () => {
           <div className="w-1/4">
             <FilterSidebar />
           </div>
-          <div className="w-3/4">
+          <div className="w-3/4 space-y-6">
             {hotels.length>0?
                   (hotels.map((h) => (
           <HotelCards key={h._id} hotel={h}/>
