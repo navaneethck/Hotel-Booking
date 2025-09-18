@@ -3,7 +3,7 @@ import { Footer } from "../components/searchComponents/Footer";
 import { HotelCards } from "../components/searchComponents/HotelCards";
 import { SearchBar } from "../components/searchComponents/SearchBar";
 import { Header } from "../components/searchComponents/Header";
-import { useAsyncValue, useSearchParams } from "react-router-dom";
+import {  useSearchParams } from "react-router-dom";
 import { useState,useEffect, useMemo} from "react";
 
 const SearchResultsMain = () => {
@@ -12,18 +12,32 @@ const SearchResultsMain = () => {
     const [searchParams] = useSearchParams();
     const destination = searchParams.get("destination"); 
     const [sortOption,setSortOption] = useState("Recommended")
+    const [filters,setFilters] = useState({
+      priceRange:[],
+      starHotelRating:[],
+      amenities:[]
+    })
     
     const sortedHotel = useMemo(()=>{
-      if(sortOption ==="Recommended") return hotels;
-      const HotelCopy = [...hotels];
+      let HotelCopy = [...hotels];
+
+  //comparison function for fetched hotel which has minimum and maximum based on user input
+      if (filters.priceRange.length > 0) {
+      HotelCopy = HotelCopy.filter((hotel) =>
+        filters.priceRange.some(
+          ([min, max]) => hotel.price >= min && hotel.price <= max
+        )
+      );
+    }
+
+  //for dorting
       if(sortOption ==="Price: Low to High") {
         return HotelCopy.sort((a,b)=>a.price - b.price)
-      }
-      if(sortOption ==="Price: High to Low") {
+      }else if(sortOption ==="Price: High to Low") {
         return HotelCopy.sort((a,b)=>b.price - a.price)
       }
       return HotelCopy;
-    },[hotels,sortOption])
+    },[hotels,sortOption,filters])
 
   useEffect(()=>{
     const fetchHotel = async()=>{
@@ -76,7 +90,7 @@ const SearchResultsMain = () => {
 
         <div className="flex gap-6">
           <div className="w-1/4">
-            <FilterSidebar />
+            <FilterSidebar onFilterChange={setFilters} />
           </div>
           <div className="w-3/4 space-y-6">
             {hotels.length>0?
