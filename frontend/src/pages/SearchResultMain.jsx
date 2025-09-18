@@ -30,6 +30,15 @@ const SearchResultsMain = () => {
       );
     }
 
+    //for aminites comparison
+    if(filters.amenities.length>0){
+      HotelCopy = HotelCopy.filter((hotel)=>
+      filters.amenities.some((amenity)=> hotel.amenities
+      .map((a)=>a.toLowerCase())
+      .includes(amenity.toLowerCase()))
+      );
+    }
+
   //for dorting
       if(sortOption ==="Price: Low to High") {
         return HotelCopy.sort((a,b)=>a.price - b.price)

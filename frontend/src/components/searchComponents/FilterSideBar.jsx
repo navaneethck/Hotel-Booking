@@ -1,4 +1,5 @@
 export const FilterSidebar = ({onFilterChange}) => {
+
     const handlePriceChange = (range)=>{
       onFilterChange((prev)=>{const exists = prev.priceRange.some(
       (r) => r[0] === range[0] && r[1] === range[1]
@@ -19,6 +20,16 @@ export const FilterSidebar = ({onFilterChange}) => {
       };
     }
   });
+    }
+
+    const handleAminityChange = (amenity)=>{
+      onFilterChange((prev)=>{
+        const updated = prev.amenities.includes(amenity)
+        ?prev.amenities.filter((a)=> a !== amenity)
+        :[...prev.amenities,amenity];
+        return {...prev,amenities:updated}
+      })
+
     }
   
   return (
@@ -57,47 +68,29 @@ export const FilterSidebar = ({onFilterChange}) => {
     </div>
 
     <div className="mb-6">
-      <h4 className="font-semibold mb-2">Star Rating</h4>
-      <div className="space-y-2">
-        <label className="flex items-center">
-          <input type="checkbox" className="mr-2" />
-          <span>⭐⭐⭐⭐⭐ 5 Stars</span>
-        </label>
-        <label className="flex items-center">
-          <input type="checkbox" className="mr-2" />
-          <span>⭐⭐⭐⭐ 4 Stars</span>
-        </label>
-        <label className="flex items-center">
-          <input type="checkbox" className="mr-2" />
-          <span>⭐⭐⭐ 3 Stars</span>
-        </label>
-      </div>
-    </div>
-
-    <div className="mb-6">
       <h4 className="font-semibold mb-2">Amenities</h4>
       <div className="space-y-2">
         <label className="flex items-center">
-          <input type="checkbox" className="mr-2" />
-          <span>🌐 Free WiFi</span>
-        </label>
+          <input type="checkbox" className="mr-2"  onChange={()=>handleAminityChange("Free Wi-fi")}/>
+          🌐 Free WiFi
+        </label><br />
         <label className="flex items-center">
-          <input type="checkbox" className="mr-2" />
-          <span>🚗 Free Parking</span>
-        </label>
+          <input type="checkbox" className="mr-2"  onChange={()=>handleAminityChange("Airport Shuttle")}/>
+          🚌 Airport Shuttle
+        </label><br />
         <label className="flex items-center">
-          <input type="checkbox" className="mr-2" />
-          <span>🍽️ Restaurant</span>
-        </label>
+          <input type="checkbox" className="mr-2" onChange={()=>handleAminityChange("Luxury Dining")}/>
+          🍷 Luxury Dining
+        </label><br />
         <label className="flex items-center">
-          <input type="checkbox" className="mr-2" />
-          <span>🏋️ Fitness Center</span>
+          <input type="checkbox" className="mr-2" onChange={()=>handleAminityChange("Spa")} />
+          💆 Spa
         </label>
       </div>
     </div>
 
-    <button className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700">
+    {/* <button className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700">
       Apply Filters
-    </button>
+    </button> */}
   </div>
 )};
