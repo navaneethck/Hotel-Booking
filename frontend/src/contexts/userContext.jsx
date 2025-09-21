@@ -28,10 +28,23 @@ export const UserProvider =({children})=>{
         }
 
         fetchUser();
-    },[])
+    },[]);
+
+    const logout = async ()=>{
+        try{
+            await fetch(`${import.meta.env.VITE_API_URI}/api/auth/logout`,{
+                method:'POST',
+                credentials:"include",
+            })
+        }catch(err){
+            console.log("error while on logout",err)
+        }finally{
+            setUser(null)
+        }
+    }
 
     return(
-        <UserContext.Provider value={{user,setUser,loading}}>
+        <UserContext.Provider value={{user,setUser,loading,logout}}>
 
             {children}
 
