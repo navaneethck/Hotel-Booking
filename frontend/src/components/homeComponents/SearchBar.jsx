@@ -1,45 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { UseUserContext } from "../../contexts/userContext";
 import { useState } from "react";
+import {DatePicker,searchDestination,guests} from "../../utils/searchbarUtils"
 
-const DatePicker = ()=>{
-  const formatDate =  (date)=> date.toISOString().split('T')[0];
-
-  const today = new Date();
-  const tomorrow = new Date();
-  tomorrow.setDate(today.getDate() +1);
-
-  const [checkIn,setCheckIn] = useState(formatDate(today));
-  const [checkOut,setCheckOut] = useState(formatDate(tomorrow));
-
-  const handleCheckInChange = (e)=>{
-    const newCheckIn = e.target.value;
-    setCheckIn(newCheckIn);
-
-    if(checkOut<= newCheckIn){
-      const nextDay = new Date(newCheckIn);
-      nextDay.setDate(nextDay.getDate()+1);
-      setCheckOut(formatDate(nextDay));
-    }
-  }
-   return { checkIn, checkOut, setCheckOut, handleCheckInChange, formatDate, today };
-};
-const searchDestination = ()=>{
-   const [destination,setDestination] = useState("")
-   const handleDestination=(e)=>{
-      const newDestination = e.target.value;
-      setDestination(newDestination)
-   }
-   return {handleDestination,destination};
-};
-const guests = ()=>{
-  const [guest,setGuest] = useState("");
-  const handleGuest = (e)=>{
-  const Newguest = e.target.value;
-  setGuest(Newguest);
-  }
-  return {handleGuest,guest};
-}
 export const SearchBar = () => {
  const{user}= UseUserContext();
  const navigate = useNavigate();
@@ -83,7 +46,6 @@ export const SearchBar = () => {
           onChange={handleGuest}
         />
         <button className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700" onClick={()=>navigate('/searchresults?'+params.toString())}>
-          {/* <Link to='/searchresults'>Search</Link> */} 
           Search
         </button>
       </div>
