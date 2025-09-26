@@ -15,7 +15,7 @@ const HotelDetails = () => {
     <div className="min-h-screen bg-gray-50">
       <Header />
       
-      <div className="max-w-7xl mx-auto py-6 px-4">
+      <div className="max-w-7xl mx-auto py-6 px-4 mt-10">
        
         <div className="mb-4">
          
