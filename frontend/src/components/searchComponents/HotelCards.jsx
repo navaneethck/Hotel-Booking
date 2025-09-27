@@ -13,6 +13,12 @@ export const HotelCards = ({hotel,message}) =>{
   "airport shuttle": { icon: "🚌", label: "Airport Shuttle" },
   "free wi-fi": { icon: "🛜", label: "Free Wi-fi" },
 };
+const description = hotel?.description?.toLowerCase() || "";
+const wordsToFind = ["5 star", "4 star", "3 star", "2 star", "1 star", "7 star"];
+const foundTheWord = wordsToFind.find((word) =>
+  description.includes(word)
+);
+
 
   return(
   <div className="space-y-6">
@@ -28,14 +34,8 @@ export const HotelCards = ({hotel,message}) =>{
               <h3 className="text-xl font-bold text-gray-900">{hotel.name}</h3>
               <p className="text-sm text-gray-600">📍 {hotel.location}</p>
               <div className="flex items-center pt-5">
-                      {(() => {
-                      const wordsToFind = ["5 star", "4 star", "3 star", "2 star", "1 star", "7 star"];
-                      const description = hotel.description?.toLowerCase() || "";
-                      const foundTheWord = wordsToFind.find((word) =>
-                        description.includes(word)
-                      );
-
-                      return foundTheWord ? (
+                        { foundTheWord ?
+                          (
                         <>
                           <span className="text-yellow-400">
                             {"⭐".repeat(parseInt(foundTheWord))}
@@ -46,8 +46,7 @@ export const HotelCards = ({hotel,message}) =>{
                         </>
                       ) : (
                         <span className="text-gray-500">No rating info</span>
-                      );
-                    })()}
+                      )}
               </div>
             </div>
             <div className="text-right">
@@ -84,7 +83,7 @@ export const HotelCards = ({hotel,message}) =>{
               </div>
             </div>
             <button className="px-6 py-2 bg-yellow-400 text-black font-semibold rounded-lg hover:bg-yellow-300">
-              <Link to={'/hoteldetails'}> See Availability</Link>
+              <Link to='/hoteldetails'  state={{hotel,foundTheWord}}> See Availability</Link>
             </button>
           </div>
         </div>

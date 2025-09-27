@@ -1,7 +1,19 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
+import {DatePicker,guests} from "../../utils/searchbarUtils";
 
 export const BookingSidebar = () => {
+  const [searchParams] = useSearchParams();
+    // Prefill from URL from homepage searchbAr
+   
+  const initialCheckIn = searchParams.get("checkIn") || "";
+  const initialCheckOut = searchParams.get("checkOut") || "";
+  const initialGuest = searchParams.get("guest") || 1;
+
+    // using the reusable logic with prefilled values 
+  const { checkIn, checkOut, setCheckOut, handleCheckInChange, formatDate, today } = DatePicker(initialCheckIn, initialCheckOut);
+  const { guest, handleGuest } = guests(initialGuest);
+
   const [count, setCount] = useState(1);
   const min = 1;
   const max = 4;
@@ -29,20 +41,15 @@ export const BookingSidebar = () => {
       <div className="space-y-4 mb-6">
         <div>
           <label className="block text-sm font-semibold mb-1">Check-in</label>
-          <input type="date" className="w-full p-2 border rounded-md" />
+          <input type="date" className="w-full p-2 border rounded-md" value={checkIn} min={formatDate(today)} onChange={handleCheckInChange}/>
         </div>
         <div>
           <label className="block text-sm font-semibold mb-1">Check-out</label>
-          <input type="date" className="w-full p-2 border rounded-md" />
+          <input type="date" className="w-full p-2 border rounded-md"  value={checkOut} min={checkIn} onChange={(e) => setCheckOut(e.target.value)}/>
         </div>
         <div>
           <label className="block text-sm font-semibold mb-1">Guests</label>
-          <select className="w-full p-2 border rounded-md">
-            <option>1 Adult</option>
-            <option>2 Adults</option>
-            <option>3 Adults</option>
-            <option>4 Adults</option>
-          </select>
+          <input type="number" min="1" placeholder="Guests" className="p-3 rounded-md border w-28" value={guest} onChange={handleGuest} />
         </div>
 
         <div>

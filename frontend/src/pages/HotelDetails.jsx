@@ -8,30 +8,35 @@ import { HotelInfo } from "../components/hotelComponents/HotelInfo";
 import { Reviews } from "../components/hotelComponents/Reviews";
 import { RoomTypes } from "../components/hotelComponents/RoomType";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 
 const HotelDetails = () => {
+  const {state} = useLocation();
+  const hotel = state?.hotel;
+  const foundTheWord=state?.foundTheWord
+if(hotel){
+  console.log(`hotel got on this page ${hotel}`)
+  console.log(`the hotel name: ${hotel.name}`)
+  
+}else{
+  console.log('nothing foundon this')
+}
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
       
       <div className="max-w-7xl mx-auto py-6 px-4 mt-10">
-       
-        <div className="mb-4">
-         
-          <Link to={'/searchresults'}> <button className="text-blue-600 hover:underline">← Back to search results</button></Link>
-        </div>
-
-       
         <div className="mb-6">
-          <HotelGallery />
+          <HotelGallery hotelImages={hotel.images}/>
         </div>
 
         <div className="flex gap-6">
           {/* Main Content */}
           <div className="w-2/3">
-            <HotelInfo />
-            <Amenities />
+            <HotelInfo hotelName={hotel.name} hotelPrice={hotel.price} hotelRating={foundTheWord} hotelLocation={hotel.location} />
+            <Amenities amenities={hotel.Amenities} />
             <RoomTypes />
             <Description />
             <Reviews />
