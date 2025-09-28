@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import {DatePicker,guests} from "../../utils/searchbarUtils";
 
-export const BookingSidebar = () => {
+export const BookingSidebar = ({hotelPrice}) => {
   const [searchParams] = useSearchParams();
     // Prefill from URL from homepage searchbAr
    
@@ -21,19 +21,23 @@ export const BookingSidebar = () => {
   const increaseCount = () => {
     if (count < max) {
       setCount(count + 1);
+      
     }
   };
 
   const decreaseCount = () => {
     if (count > min) {
       setCount(count - 1);
+     
     }
   };
+
+  const totalPrice= hotelPrice*count;
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md h-fit sticky top-24">
       <div className="text-center mb-4">
-        <div className="text-2xl font-bold text-blue-700">₹8,500</div>
+        <div className="text-2xl font-bold text-blue-700">{totalPrice}</div>
         <div className="text-gray-600">per night</div>
       </div>
 
@@ -58,7 +62,7 @@ export const BookingSidebar = () => {
             <button
               onClick={decreaseCount}
               disabled={count === min}
-              className={`px-3 py-1 rounded-md text-white font-bold ${
+              className={`px-3 py-1 rounded-md text-white font-bold cursor-pointer ${
                 count === min
                   ? "bg-red-300 cursor-not-allowed"
                   : "bg-red-600 hover:bg-red-700"
@@ -70,7 +74,7 @@ export const BookingSidebar = () => {
             <button
               onClick={increaseCount}
               disabled={count === max}
-              className={`px-3 py-1 rounded-md text-white font-bold ${
+              className={`px-3 py-1 rounded-md text-white font-bold cursor-pointer ${
                 count === max
                   ? "bg-green-300 cursor-not-allowed"
                   : "bg-green-600 hover:bg-green-700"

@@ -44,7 +44,7 @@ if(hotel){
 
           {/* Booking Sidebar */}
           <div className="w-1/3">
-            <BookingSidebar />
+            <BookingSidebar hotelPrice={hotel.price}/>
           </div>
         </div>
       </div>
