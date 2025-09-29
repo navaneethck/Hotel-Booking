@@ -13,6 +13,13 @@ export const HotelCards = ({hotel,message}) =>{
   "airport shuttle": { icon: "🚌", label: "Airport Shuttle" },
   "free wi-fi": { icon: "🛜", label: "Free Wi-fi" },
 };
+const amenityMatches = hotel?.amenities?.map((amenity) => {
+  const key = amenity.toLowerCase().trim();
+  const match = amenityIcons[key];
+  return { key, match };
+}) || [];
+
+
 const description = hotel?.description?.toLowerCase() || "";
 const wordsToFind = ["5 star", "4 star", "3 star", "2 star", "1 star", "7 star"];
 const foundTheWord = wordsToFind.find((word) =>
@@ -56,15 +63,13 @@ const foundTheWord = wordsToFind.find((word) =>
           </div>
           <div className="flex items-center mb-4">
             <div className="flex space-x-4 text-xs text-gray-600">
-            {hotel.amenities.map((amenity) => {
-            const key = amenity.toLowerCase().trim();
-            const match = amenityIcons[key];
+            {amenityMatches.map(({ key, match }) => {
             return (
               <div key={key}>
                 {match ? (
                   <span>{match.icon} {match.label}</span>
                 ) : (
-                  <span> {amenity}</span> 
+                  <span> {key}</span> 
                 )}
               </div>
             );
@@ -83,7 +88,7 @@ const foundTheWord = wordsToFind.find((word) =>
               </div>
             </div>
             <button className="px-6 py-2 bg-yellow-400 text-black font-semibold rounded-lg hover:bg-yellow-300">
-              <Link to='/hoteldetails'  state={{hotel,foundTheWord}}> See Availability</Link>
+              <Link to='/hoteldetails'  state={{hotel,foundTheWord,amenitiesFromState: amenityMatches}}> See Availability</Link>
             </button>
           </div>
         </div>

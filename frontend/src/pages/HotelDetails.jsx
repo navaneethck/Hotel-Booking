@@ -14,10 +14,12 @@ import { useLocation } from "react-router-dom";
 const HotelDetails = () => {
   const {state} = useLocation();
   const hotel = state?.hotel;
-  const foundTheWord=state?.foundTheWord
+  const foundTheWord=state?.foundTheWord;
+  const amenitiesFromState = state?.amenitiesFromState;
 if(hotel){
   
-  console.log(`checking hotel has roomtypes ${hotel.roomTypes[0].name}`)
+  console.log(`checking hotel has amenities ${hotel.amenities}`)
+  console.log("checking state amenities", amenitiesFromState);
   
 }else{
   console.log('nothing foundon this')
@@ -36,9 +38,9 @@ if(hotel){
           {/* Main Content */}
           <div className="w-2/3">
             <HotelInfo hotelName={hotel.name} hotelPrice={hotel.price} hotelRating={foundTheWord} hotelLocation={hotel.location} />
-            <Amenities amenities={hotel.Amenities} />
-            <RoomTypes roomTypes={hotel.roomTypes}/>
-            <Description />
+            <Amenities amenities={hotel.amenities} />
+            <RoomTypes roomTypes={hotel.roomTypes} amenities={hotel.amenities} amenitiesFromState={amenitiesFromState}/>
+            <Description Description={hotel.description}/>
             <Reviews />
           </div>
 
