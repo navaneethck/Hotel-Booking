@@ -16,8 +16,8 @@ const HotelDetails = () => {
   const hotel = state?.hotel;
   const foundTheWord=state?.foundTheWord
 if(hotel){
-  console.log(`hotel got on this page ${hotel}`)
-  console.log(`the hotel name: ${hotel.name}`)
+  
+  console.log(`checking hotel has roomtypes ${hotel.roomTypes[0].name}`)
   
 }else{
   console.log('nothing foundon this')
@@ -37,7 +37,7 @@ if(hotel){
           <div className="w-2/3">
             <HotelInfo hotelName={hotel.name} hotelPrice={hotel.price} hotelRating={foundTheWord} hotelLocation={hotel.location} />
             <Amenities amenities={hotel.Amenities} />
-            <RoomTypes />
+            <RoomTypes roomTypes={hotel.roomTypes}/>
             <Description />
             <Reviews />
           </div>

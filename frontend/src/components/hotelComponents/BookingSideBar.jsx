@@ -16,7 +16,7 @@ export const BookingSidebar = ({hotelPrice}) => {
 
   const [count, setCount] = useState(1);
   const min = 1;
-  const max = 4;
+  const max = 20;
 
   const increaseCount = () => {
     if (count < max) {
@@ -53,7 +53,7 @@ export const BookingSidebar = ({hotelPrice}) => {
         </div>
         <div>
           <label className="block text-sm font-semibold mb-1">Guests</label>
-          <input type="number" min="1" placeholder="Guests" className="p-3 rounded-md border w-28" value={guest} onChange={handleGuest} />
+          <input type="number" min="1" max={30} placeholder="Guests" className="p-3 rounded-md border w-28 cursor-pointer" value={guest} onChange={handleGuest} onKeyDown={(e) => e.preventDefault()} />
         </div>
 
         <div>
@@ -84,6 +84,9 @@ export const BookingSidebar = ({hotelPrice}) => {
             </button>
           </div>
         </div>
+              <div className="text-center text-sm text-gray-600">
+        <p>Max occupancy 3 adult per room</p>
+      </div>
       </div>
 
       <Link to={"/bookingsummary"}>
