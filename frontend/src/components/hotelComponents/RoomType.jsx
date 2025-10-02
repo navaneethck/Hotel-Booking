@@ -1,8 +1,9 @@
-import { useState } from "react";
 
-export const RoomTypes = ({roomTypes ,amenities,amenitiesFromState}) =>{
-  const [purple,setPurple] = useState(false)
-  const [purple2,setPurple2]=useState(false)
+import { useRoomSeceltionContext } from "../../contexts/roomSelectionContext";
+
+export const RoomTypes = ({roomTypes ,amenitiesFromState}) =>{
+const { purple, setPurple, purple2, setPurple2 } =useRoomSeceltionContext()
+ 
 return (
   <div className="bg-white p-6 rounded-lg shadow-md mb-6">
     <h3 className="text-xl font-bold mb-4">Room Types & Rates</h3>
@@ -63,7 +64,7 @@ return (
           <div className="text-right">
             <div className="text-xl font-bold text-blue-700">{roomTypes[1].price}</div>
             <div className="text-sm text-gray-600">per night</div>
-            <button className={`mt-2 px-4 py-2 rounded-lg cursor-pointer font-semibold ${purple2?"bg-purple-600 hover:bg-purple-400 text-white":"bg-yellow-400 text-black hover:bg-yellow-300"}`} onClick={()=>setPurple2(!purple2)}>
+            <button className={`mt-2 px-4 py-2 rounded-lg cursor-pointer font-semibold ${purple2?"bg-purple-600 hover:bg-purple-400 text-white":"bg-yellow-400 text-black hover:bg-yellow-300"}`} onClick={()=>setPurple2(!purple2)  }>
               {purple2?"Unselect This Room ":"Select This Room"}
             </button>
           </div>
@@ -71,4 +72,5 @@ return (
       </div>
     </div>
   </div>
+  
 )};
