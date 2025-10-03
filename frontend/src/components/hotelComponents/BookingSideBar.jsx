@@ -3,7 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import {DatePicker,guests} from "../../utils/searchbarUtils";
 import { useRoomSeceltionContext } from "../../contexts/roomSelectionContext";
 
-export const BookingSidebar = ({hotelPrice}) => {
+export const BookingSidebar = ({hotelPrice,roomTypes}) => {
   const [searchParams] = useSearchParams();
   
   const {purple,purple2} =useRoomSeceltionContext()
@@ -48,7 +48,10 @@ export const BookingSidebar = ({hotelPrice}) => {
     }
   };
 
-  const totalPrice= hotelPrice*count;
+  const totalPriceSuite = purple ? roomTypes[0].price * count : 0;
+  const totalPriceDeluxe = purple2 ? roomTypes[1].price * count1 : 0;
+
+
 
   const disabledIf =
   (!purple && !purple2) ||
@@ -56,11 +59,28 @@ export const BookingSidebar = ({hotelPrice}) => {
   (purple2 && count1 === 0);
 
 
+
+
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md h-fit sticky top-24">
-      <div className="text-center mb-4">
-        <div className="text-2xl font-bold text-blue-700">{totalPrice}</div>
-        <div className="text-gray-600">per night</div>
+    <div className="bg-white p-6 rounded-lg shadow-md h-fit sticky top-24 mb-6">
+    <div className="space-y-3">
+
+        <div className="flex justify-between items-center">
+          <span className="text-gray-600 font-medium">Price per night for Suite</span>
+          <span className="text-blue-700 font-bold text-lg">{!purple||count===0?(<>0</>):(<>{totalPriceSuite}</>)}</span>
+        </div>
+
+     
+        <div className="flex justify-between items-center">
+          <span className="text-gray-600 font-medium">Price per night for Deluxe</span>
+          <span className="text-blue-700 font-bold text-lg">{!purple2||count1===0?(<>0</>):(<>{totalPriceDeluxe}</>)}</span>
+        </div>
+
+      
+        <div className="flex justify-between items-center border-t pt-2 mt-2">
+          <span className="text-gray-700 font-semibold">Total Room Price</span>
+          <span className="text-gray-900 font-bold text-lg">{totalPriceDeluxe+totalPriceSuite}</span>
+        </div>
       </div>
 
       {/* Form Section */}
@@ -142,7 +162,7 @@ export const BookingSidebar = ({hotelPrice}) => {
 
       <Link to={"/bookingsummary"}>
 <button
-  disabled={!purple || !purple2}  
+  disabled={disabledIf}  
   className={`w-full px-6 py-3 font-semibold rounded-lg transition mb-4
     ${disabledIf
       ? "bg-gray-300 text-gray-600 cursor-not-allowed"   

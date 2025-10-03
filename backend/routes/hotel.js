@@ -99,7 +99,7 @@ router.get('/search',async (req,res)=>{
     try{
         const {destination}=req.query;
         // const {minPrice,maxPrice}=req.query;
-        console.log("Query received:", req.query);  
+        // console.log("Query received:", req.query);  
         //removing all space 
         const formattedDestination = destination.replace(/\s+/g, ''); 
         const queryHotel = await Hotel.find({ location: { $regex: formattedDestination, $options: 'i' } });
