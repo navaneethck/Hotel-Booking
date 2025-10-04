@@ -3,10 +3,10 @@ import { Link, useSearchParams } from "react-router-dom";
 import {DatePicker,guests} from "../../utils/searchbarUtils";
 import { useRoomSeceltionContext } from "../../contexts/roomSelectionContext";
 
-export const BookingSidebar = ({hotelPrice,roomTypes}) => {
+export const BookingSidebar = ({hotelImages,hotelName,roomTypes,hotelLocation,hotelRating}) => {
   const [searchParams] = useSearchParams();
-  
-  const {purple,purple2} =useRoomSeceltionContext()
+  const {purple,purple2} =useRoomSeceltionContext();
+
     // Prefill from URL from homepage searchbAr
   const initialCheckIn = searchParams.get("checkIn") || "";
   const initialCheckOut = searchParams.get("checkOut") || "";
@@ -18,6 +18,7 @@ export const BookingSidebar = ({hotelPrice,roomTypes}) => {
 
   const [count, setCount] = useState(0);
   const [count1,setCount1]=useState(0);
+
   const min = 0;
   const max = 20;
   const min1 = 0;
@@ -50,6 +51,7 @@ export const BookingSidebar = ({hotelPrice,roomTypes}) => {
 
   const totalPriceSuite = purple ? roomTypes[0].price * count : 0;
   const totalPriceDeluxe = purple2 ? roomTypes[1].price * count1 : 0;
+  const totalSum = totalPriceSuite+totalPriceDeluxe;
 
 
 
@@ -79,7 +81,7 @@ export const BookingSidebar = ({hotelPrice,roomTypes}) => {
       
         <div className="flex justify-between items-center border-t pt-2 mt-2">
           <span className="text-gray-700 font-semibold">Total Room Price</span>
-          <span className="text-gray-900 font-bold text-lg">{totalPriceDeluxe+totalPriceSuite}</span>
+          <span className="text-gray-900 font-bold text-lg">{totalSum}</span>
         </div>
       </div>
 
@@ -112,7 +114,7 @@ export const BookingSidebar = ({hotelPrice,roomTypes}) => {
             >
               −
             </button>
-            <span className="text-lg font-medium">{count} Room{count > 1 && "s"}</span>
+            <span className="text-lg font-medium">{purple?<>{count}</>:<>0</>} Room{count > 1 && "s"}</span>
             <button
               onClick={increaseCount}
               disabled={count === max ||!purple}
@@ -141,7 +143,7 @@ export const BookingSidebar = ({hotelPrice,roomTypes}) => {
             >
               −
             </button>
-            <span className="text-lg font-medium">{count1} Room{count1 > 1 && "s"}</span>
+            <span className="text-lg font-medium">{purple2?<>{count1}</>:<>0</>} Room{count1 > 1 && "s"}</span>
             <button
               onClick={increaseCount1}
               disabled={count1 === max1 || !purple2}
@@ -160,17 +162,17 @@ export const BookingSidebar = ({hotelPrice,roomTypes}) => {
       </div>
       </div>
 
-      <Link to={"/bookingsummary"}>
-<button
-  disabled={disabledIf}  
-  className={`w-full px-6 py-3 font-semibold rounded-lg transition mb-4
-    ${disabledIf
-      ? "bg-gray-300 text-gray-600 cursor-not-allowed"   
-      : "bg-yellow-400 text-black hover:bg-yellow-300"} 
-  `}
->
-  Book Now
-</button>
+      <Link to={"/bookingsummary"} state={{hotelImages,count,count1,guest,checkIn,checkOut,hotelName,hotelLocation,hotelRating,roomTypes}}>
+      <button
+        disabled={disabledIf}  
+        className={`w-full px-6 py-3 font-semibold rounded-lg transition mb-4
+          ${disabledIf
+            ? "bg-gray-300 text-gray-600 cursor-not-allowed"   
+            : "bg-yellow-400 text-black hover:bg-yellow-300"} 
+        `}
+      >
+        Book Now
+      </button>
       </Link>
 
       <div className="text-center text-sm text-gray-600">

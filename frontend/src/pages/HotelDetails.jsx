@@ -46,7 +46,7 @@ if(hotel){
 
           {/* Booking Sidebar */}
           <div className="w-1/3">
-            <BookingSidebar hotelPrice={hotel.price} roomTypes={hotel.roomTypes} />
+            <BookingSidebar roomTypes={hotel.roomTypes} hotelName={hotel.name}  hotelLocation={hotel.location}  hotelRating={foundTheWord} hotelImages={hotel.images}/>
           </div>
         </div>
       </div>
