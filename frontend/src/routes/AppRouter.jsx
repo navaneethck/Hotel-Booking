@@ -7,8 +7,7 @@ import SearchResultsMain from '../pages/SearchResultMain.jsx'
 import HotelDetails from "../pages/HotelDetails.jsx";
 import BookingSummaryPage from "../pages/BookingSummary.jsx";
 import MyBookings from "../pages/MyBookings.jsx";
-import { RoomSelectionProvider } from "../contexts/roomSelectionContext.jsx";
-
+import RoomSelectionWrapper from "../components/selectionWraper/roomSelectionWrapper.jsx";
 
 const AppRouter = ()=>{
     return(
@@ -19,20 +18,14 @@ const AppRouter = ()=>{
                 <Route path="/register" element={<Register/>} />
                 <Route path="/login" element={<Login/>} />
                 <Route path="/searchresults" element={<SearchResultsMain/>}/>
-                <Route
-                path="/hoteldetails"
-                element={
-                <RoomSelectionProvider>
-                    <HotelDetails />
-                </RoomSelectionProvider>
-                }
-                />
-                <Route path="/bookingsummary" element={<BookingSummaryPage/>}/>
+                <Route element={<RoomSelectionWrapper />}>
+                  <Route path="/hoteldetails" element={<HotelDetails />} />
+                  <Route path="/bookingsummary" element={<BookingSummaryPage />} />
+                </Route>
                 <Route path="/myprofile" element={<MyBookings/>}/>
             </Routes>
         </Router>
         </UserProvider>
     )
 }
-
 export default AppRouter;

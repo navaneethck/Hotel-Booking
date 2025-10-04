@@ -162,7 +162,7 @@ export const BookingSidebar = ({hotelImages,hotelName,roomTypes,hotelLocation,ho
       </div>
       </div>
 
-      <Link to={"/bookingsummary"} state={{hotelImages,count,count1,guest,checkIn,checkOut,hotelName,hotelLocation,hotelRating,roomTypes}}>
+      <Link to={"/bookingsummary"} state={{hotelImages,guest,checkIn,checkOut,hotelName,hotelLocation,hotelRating,roomTypes}}>
       <button
         disabled={disabledIf}  
         className={`w-full px-6 py-3 font-semibold rounded-lg transition mb-4
