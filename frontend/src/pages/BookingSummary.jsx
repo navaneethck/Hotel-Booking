@@ -12,7 +12,7 @@ const BookingSummaryPage = () => {
   if (!state) {
     return <p>No booking data found. Please go back and book a room.</p>;
   }
-  const { hotelImages, guest, checkIn, checkOut, hotelName, hotelLocation, hotelRating, roomTypes } = state;
+  const { hotelImages, guest, checkIn, checkOut, hotelName, hotelLocation, hotelRating, roomTypes,totalSum } = state;
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -35,8 +35,8 @@ const BookingSummaryPage = () => {
           {/* Right Column - Summary & Payment */}
           <div className="w-1/3 space-y-6">
             <BookingSummary hotelImages={hotelImages} hotelName={hotelName}hotelRating={hotelRating} hotelLocation={hotelLocation} 
-             guest={guest} checkIn={checkIn} checkOut={checkOut} roomTypes={roomTypes}/>
-            <PriceBreakdown />
+             guest={guest} checkIn={checkIn} checkOut={checkOut} roomTypes={roomTypes} />
+            <PriceBreakdown totalPrice={totalSum} checkIn={checkIn} checkOut={checkOut} guest={guest}/>
           </div>
         </div>
       </div>

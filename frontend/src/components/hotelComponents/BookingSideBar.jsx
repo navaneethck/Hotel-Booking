@@ -60,9 +60,6 @@ export const BookingSidebar = ({hotelImages,hotelName,roomTypes,hotelLocation,ho
   (purple && count === 0) ||
   (purple2 && count1 === 0);
 
-
-
-
   return (
     <div className="bg-white p-6 rounded-lg shadow-md h-fit sticky top-24 mb-6">
     <div className="space-y-3">
@@ -162,7 +159,7 @@ export const BookingSidebar = ({hotelImages,hotelName,roomTypes,hotelLocation,ho
       </div>
       </div>
 
-      <Link to={"/bookingsummary"} state={{hotelImages,guest,checkIn,checkOut,hotelName,hotelLocation,hotelRating,roomTypes}}>
+      <Link to={"/bookingsummary"} state={{hotelImages,guest,checkIn,checkOut,hotelName,hotelLocation,hotelRating,roomTypes,totalSum}}>
       <button
         disabled={disabledIf}  
         className={`w-full px-6 py-3 font-semibold rounded-lg transition mb-4

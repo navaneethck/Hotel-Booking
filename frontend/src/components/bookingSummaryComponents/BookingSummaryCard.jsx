@@ -1,8 +1,29 @@
 import { useRoomSeceltionContext } from "../../contexts/roomSelectionContext";
-export const BookingSummary = ({hotelImages, guest, checkIn, checkOut, hotelName, hotelLocation, hotelRating, roomTypes}) =>{ 
+export const BookingSummary = ({hotelImages, guest, checkIn, checkOut, hotelName, hotelLocation, hotelRating, roomTypes,totalPrice}) =>{ 
          
-        console.log(`this is checkin ${checkIn}`)
-        console.log(`this is checkOut ${checkOut}`)
+        const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        };
+        const formattedCheckIn = formatDate(checkIn);
+        const formattedCheckOut = formatDate(checkOut);
+
+        const TotalNights = (checkIn, checkOut) => {
+        const checkInDate = new Date(checkIn);
+        const checkOutDate = new Date(checkOut);
+
+        const diffTime = checkOutDate - checkInDate;
+        const nights = diffTime / (1000 * 60 * 60 * 24);
+
+        return nights;
+        };
+
+        const totalPricePerNight = TotalNights(checkIn,checkOut)*totalPrice;
+
         const {purple,purple2} =useRoomSeceltionContext();
         return(
         <div className="bg-white p-6 rounded-lg shadow-md">
@@ -28,20 +49,20 @@ export const BookingSummary = ({hotelImages, guest, checkIn, checkOut, hotelName
             <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
                 <p className="text-sm text-gray-600">Check-in</p>
-                <p className="font-semibold">March 15, 2025</p>
-                <p className="text-xs text-gray-500">After 3:00 PM</p>
+                <p className="font-semibold">{formattedCheckIn}</p>
+                <p className="text-xs text-gray-500">After 2:00 PM</p>
                 </div>
                 <div>
-                <p className="text-sm text-gray-600">Check-out</p>
+                <p className="text-sm text-gray-600">{formattedCheckOut}</p>
                 <p className="font-semibold">March 18, 2025</p>
-                <p className="text-xs text-gray-500">Before 11:00 AM</p>
+                <p className="text-xs text-gray-500">Before 12:00 AM</p>
                 </div>
             </div>
             
             <div className="grid grid-cols-2 gap-4">
                 <div>
                 <p className="text-sm text-gray-600">Duration</p>
-                <p className="font-semibold">3 nights</p>
+                <p className="font-semibold">{TotalNights(checkIn,checkOut)} nights</p>
                 </div>
                 <div>
                 <p className="text-sm text-gray-600">Guests</p>

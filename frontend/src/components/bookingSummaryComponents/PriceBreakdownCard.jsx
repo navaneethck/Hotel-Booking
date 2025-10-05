@@ -1,12 +1,24 @@
 
-export const PriceBreakdown = () => (
+export const PriceBreakdown = ({totalPrice,checkIn,checkOut,guest}) => {
+  const TotalNightsCal = (checkIn, checkOut) => {
+  const checkInDate = new Date(checkIn);
+  const checkOutDate = new Date(checkOut);
+
+  const diffTime = checkOutDate - checkInDate;
+  const nights = diffTime / (1000 * 60 * 60 * 24);
+
+  return nights;
+  };
+  const TotalNights=TotalNightsCal(checkIn,checkOut);
+  const totalPricePerNight =TotalNights*totalPrice;
+  return(
   <div className="bg-white p-6 rounded-lg shadow-md">
     <h3 className="text-xl font-bold mb-4">Price Breakdown</h3>
     
     <div className="space-y-3 mb-4">
       <div className="flex justify-between">
-        <span>Room rate (3 nights)</span>
-        <span>₹25,500</span>
+        <span>Room rate ({TotalNights} nights)</span>
+        <span>₹{totalPricePerNight}</span>
       </div>
       <div className="flex justify-between">
         <span>Taxes & fees</span>
@@ -21,9 +33,9 @@ export const PriceBreakdown = () => (
     <div className="border-t pt-4 mb-4">
       <div className="flex justify-between text-xl font-bold">
         <span>Total Amount</span>
-        <span className="text-blue-700">₹26,060</span>
+        <span className="text-blue-700">{totalPricePerNight-3060-2500}</span>
       </div>
-      <p className="text-sm text-gray-600 mt-1">For 3 nights, 2 guests</p>
+      <p className="text-sm text-gray-600 mt-1">For {TotalNights} nights, {guest} guests</p>
     </div>
 
     <div className="bg-green-50 p-3 rounded-md mb-4">
@@ -47,4 +59,4 @@ export const PriceBreakdown = () => (
       </p>
     </div>
   </div>
-);
+)};
