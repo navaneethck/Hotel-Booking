@@ -53,8 +53,8 @@ export const BookingSummary = ({hotelImages, guest, checkIn, checkOut, hotelName
                 <p className="text-xs text-gray-500">After 2:00 PM</p>
                 </div>
                 <div>
-                <p className="text-sm text-gray-600">{formattedCheckOut}</p>
-                <p className="font-semibold">March 18, 2025</p>
+                <p className="text-sm text-gray-600">check-out</p>
+                <p className="font-semibold">{formattedCheckOut}</p>
                 <p className="text-xs text-gray-500">Before 12:00 AM</p>
                 </div>
             </div>

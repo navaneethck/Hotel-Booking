@@ -1,4 +1,4 @@
-
+import { SiRazorpay } from "react-icons/si";
 export const PriceBreakdown = ({totalPrice,checkIn,checkOut,guest}) => {
   const TotalNightsCal = (checkIn, checkOut) => {
   const checkInDate = new Date(checkIn);
@@ -52,7 +52,10 @@ export const PriceBreakdown = ({totalPrice,checkIn,checkOut,guest}) => {
     <div className="mt-4 text-center">
       <div className="flex items-center justify-center space-x-4 text-sm text-gray-600">
         <span>🔒 Secure payment</span>
-        <span>💳 All cards accepted</span>
+                  <div className="flex items-center space-x-1">
+            <SiRazorpay className="text-blue-600 text-lg" /> {/* ✅ styled icon */}
+            <span>Razorpay</span>
+            </div>
       </div>
       <p className="text-xs text-gray-500 mt-2">
         By proceeding, you agree to our Terms & Conditions and Privacy Policy

@@ -4,9 +4,10 @@ const connectedDB=require('./config/db')
 require('dotenv').config();
 const authRout= require("./routes/auth");
 const authHotel= require('./routes/hotel');
-const authBooking = require('./routes/bookingRoutes')
-const adminAuth = require('./routes/adminAuth')
-const cookieparser = require('cookie-parser')
+const authBooking = require('./routes/bookingRoutes');
+const adminAuth = require('./routes/adminAuth');
+const guestAuth = require('./routes/guestDetails');
+const cookieparser = require('cookie-parser');
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use('/api/auth',authRout);
 app.use('/api/hotels',authHotel)
 app.use('/api/booking',authBooking);
 app.use('/api/All-bookings',adminAuth);
+app.use('/api/guest',guestAuth);
 
 
 connectedDB()
