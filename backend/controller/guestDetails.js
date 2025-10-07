@@ -1,8 +1,15 @@
 const guestDetailsModel = require('../models/guestDetailsModel');
 const guestDetails = async(req,res)=>{
     try{
-        const data = req.body;
-        const newDetails = new guestDetailsModel(data);
+        const{ firstName, lastName, email, phone, specialRequest } = req.body;
+        const cleanData = {
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        email: email.trim().toLowerCase(),
+        phone: phone.replace(/\D/g, ""), 
+        specialRequest: specialRequest?.trim(),
+      };
+        const newDetails = new guestDetailsModel(cleanData);
         await newDetails.save();
         res.status(201).json({ success: true, message: "Guest details saved" });
 

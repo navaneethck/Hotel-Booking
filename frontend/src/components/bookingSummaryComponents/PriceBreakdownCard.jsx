@@ -1,5 +1,47 @@
 import { SiRazorpay } from "react-icons/si";
-export const PriceBreakdown = ({totalPrice,checkIn,checkOut,guest}) => {
+import { UseUserContext } from "../../contexts/userContext";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+export const PriceBreakdown = ({totalPrice,checkIn,checkOut,guest,formData}) => {
+  const { user } = UseUserContext();
+  const navigate = useNavigate();
+  const handleSubmit = async(e)=>{
+    e.preventDefault();
+    if(!user){
+      alert("Please log in to continue");
+      return;
+    }
+
+    if(!formData.firstName ||
+       !formData.lastName ||
+       !formData.email ||
+       !formData.phone){
+      alert('please fill the valid  inputs');
+      return;
+    }
+    try{
+      const response = await fetch(`${import.meta.env.VITE_API_URI}/api/guest/guestdetails`,{
+        method:'POST',
+        headers:{
+          'Content-Type': 'application/json'
+        },
+        body:JSON.stringify(formData)
+      })
+
+      const result = await response.json();
+      result?.success === true ? navigate('/payment') : alert("something gone wrong on form submit");
+       
+    }catch(err){
+      console.error("Error:", err);
+    }
+  }
+  const canProceed =
+  user &&
+  formData.firstName &&
+  formData.lastName &&
+  formData.email &&
+  formData.phone;
+
   const TotalNightsCal = (checkIn, checkOut) => {
   const checkInDate = new Date(checkIn);
   const checkOutDate = new Date(checkOut);
@@ -45,8 +87,16 @@ export const PriceBreakdown = ({totalPrice,checkIn,checkOut,guest}) => {
       </div>
     </div>
 
-    <button className="w-full py-3 bg-yellow-400 text-black font-bold rounded-lg hover:bg-yellow-300 text-lg">
-      Proceed to Payment
+    <button
+      onClick={handleSubmit}
+      disabled={!canProceed}
+      className={`w-full py-3 font-bold rounded-lg text-lg transition-colors
+        ${canProceed
+          ? "bg-yellow-400 text-black hover:bg-yellow-300"
+          : "bg-gray-300 text-gray-600 cursor-not-allowed"
+        }`}
+    >
+      Proceed to payment
     </button>
 
     <div className="mt-4 text-center">

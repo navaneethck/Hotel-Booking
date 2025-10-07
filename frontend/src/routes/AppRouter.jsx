@@ -7,6 +7,7 @@ import SearchResultsMain from '../pages/SearchResultMain.jsx'
 import HotelDetails from "../pages/HotelDetails.jsx";
 import BookingSummaryPage from "../pages/BookingSummary.jsx";
 import MyBookings from "../pages/MyBookings.jsx";
+import { PaymentTrial } from "../pages/paymentTrial.jsx";
 import RoomSelectionWrapper from "../components/selectionWraper/roomSelectionWrapper.jsx";
 
 const AppRouter = ()=>{
@@ -23,6 +24,7 @@ const AppRouter = ()=>{
                   <Route path="/bookingsummary" element={<BookingSummaryPage />} />
                 </Route>
                 <Route path="/myprofile" element={<MyBookings/>}/>
+                <Route path="/payment" element={<PaymentTrial/>}/>
             </Routes>
         </Router>
         </UserProvider>

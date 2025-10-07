@@ -6,12 +6,20 @@ import { PriceBreakdown } from "../components/bookingSummaryComponents/PriceBrea
 import { CancellationPolicy } from "../components/bookingSummaryComponents/cancellationPolicy";
 import { Footer } from "../components/bookingSummaryComponents/Footer";
 import { Link, useLocation } from "react-router-dom";
+import { useState } from "react";
 
 const BookingSummaryPage = () => {
   const { state } = useLocation();
   if (!state) {
     return <p>No booking data found. Please go back and book a room.</p>;
   }
+  const [formData,setFormData] =useState({
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      specialRequest: "",
+      })
   const { hotelImages, guest, checkIn, checkOut, hotelName, hotelLocation, hotelRating, roomTypes,totalSum } = state;
   return (
     <div className="min-h-screen bg-gray-50">
@@ -28,7 +36,7 @@ const BookingSummaryPage = () => {
         <div className="flex gap-6">
           {/* Left Column - Forms */}
           <div className="w-2/3 space-y-6">
-            <GuestDetailsForm />
+            <GuestDetailsForm formData={formData} setFormData={setFormData}/>
             <CancellationPolicy />
           </div>
 
@@ -36,7 +44,8 @@ const BookingSummaryPage = () => {
           <div className="w-1/3 space-y-6">
             <BookingSummary hotelImages={hotelImages} hotelName={hotelName}hotelRating={hotelRating} hotelLocation={hotelLocation} 
              guest={guest} checkIn={checkIn} checkOut={checkOut} roomTypes={roomTypes} />
-            <PriceBreakdown totalPrice={totalSum} checkIn={checkIn} checkOut={checkOut} guest={guest}/>
+            <PriceBreakdown totalPrice={totalSum} checkIn={checkIn} checkOut={checkOut} guest={guest}
+            formData={formData}/>
           </div>
         </div>
       </div>
