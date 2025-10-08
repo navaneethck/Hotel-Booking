@@ -46,10 +46,6 @@ roomType: {
     type: String,
     unique: true
   },
-    specialRequests: {
-    type: String,
-    maxLength: 500
-  },
   cancelledAt: {
     type: Date
   },

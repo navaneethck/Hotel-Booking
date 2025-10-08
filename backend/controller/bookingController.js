@@ -6,14 +6,14 @@ const createBooking = async(req,res)=>{
     try{
 
      const {  hotelId,
-      checkInDate,
-      checkOutDate,
+      checkIn,
+      checkOut,
       roomType,
-      numberOfRooms,
-      guests,
-      specialRequests} = req.body;
+      totalNumOfRooms,
+      guest,
+      } = req.body;
 
-      const result = await checkRoomAvailability ({hotelId, checkInDate, checkOutDate, roomType, numberOfRooms});
+      const result = await checkRoomAvailability ({hotelId, checkIn, checkOut, roomType, numberOfRooms});
 
       if(!result.success){
 

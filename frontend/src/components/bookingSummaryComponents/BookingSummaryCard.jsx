@@ -76,7 +76,7 @@ export const BookingSummary = ({hotelImages, guest, checkIn, checkOut, hotelName
             <h5 className="font-semibold mb-2">Room Selected</h5>
             <div className="bg-gray-300 p-3 rounded-md">
                 <p className="font-semibold">
-                {purple && purple
+                {purple && purple2
                     ? `${roomTypes?.[0]?.name}☑️ & ${roomTypes?.[1]?.name}☑️`
                     : purple
                     ? `${roomTypes?.[0]?.name} Room☑️`

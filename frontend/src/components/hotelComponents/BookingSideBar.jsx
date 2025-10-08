@@ -3,7 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import {DatePicker,guests} from "../../utils/searchbarUtils";
 import { useRoomSeceltionContext } from "../../contexts/roomSelectionContext";
 
-export const BookingSidebar = ({hotelImages,hotelName,roomTypes,hotelLocation,hotelRating}) => {
+export const BookingSidebar = ({hotelId,hotelImages,hotelName,roomTypes,hotelLocation,hotelRating}) => {
   const [searchParams] = useSearchParams();
   const {purple,purple2} =useRoomSeceltionContext();
 
@@ -159,7 +159,7 @@ export const BookingSidebar = ({hotelImages,hotelName,roomTypes,hotelLocation,ho
       </div>
       </div>
 
-      <Link to={"/bookingsummary"} state={{hotelImages,guest,checkIn,checkOut,hotelName,hotelLocation,hotelRating,roomTypes,totalSum}}>
+      <Link to={"/bookingsummary"} state={{hotelId,count,count1,hotelImages,guest,checkIn,checkOut,hotelName,hotelLocation,hotelRating,roomTypes,totalSum}}>
       <button
         disabled={disabledIf}  
         className={`w-full px-6 py-3 font-semibold rounded-lg transition mb-4

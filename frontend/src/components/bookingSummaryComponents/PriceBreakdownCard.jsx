@@ -2,9 +2,25 @@ import { SiRazorpay } from "react-icons/si";
 import { UseUserContext } from "../../contexts/userContext";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-export const PriceBreakdown = ({totalPrice,checkIn,checkOut,guest,formData}) => {
+import { useRoomSeceltionContext } from "../../contexts/roomSelectionContext";
+export const PriceBreakdown = ({hotelId,roomTypes,count,count1,totalPrice,checkIn,checkOut,guest,formData}) => {
   const { user } = UseUserContext();
+  const {purple,purple2} = useRoomSeceltionContext();
   const navigate = useNavigate();
+  const totalNumOfRooms=count+count1;
+  console.log(`total rooms ${totalNumOfRooms}`)
+
+const roomTypeThruClr = () =>
+  purple && purple2
+    ? `${roomTypes?.[0]?.name} & ${roomTypes?.[1]?.name}`
+    : purple
+    ? roomTypes?.[0]?.name
+    : purple2
+    ? roomTypes?.[1]?.name
+    : "Nothing is gotten";
+
+console.log(roomTypeThruClr());
+
   const handleSubmit = async(e)=>{
     e.preventDefault();
     if(!user){

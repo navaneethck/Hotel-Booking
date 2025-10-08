@@ -17,7 +17,7 @@ const HotelDetails = () => {
   const foundTheWord=state?.foundTheWord;
   const amenitiesFromState = state?.amenitiesFromState;
 if(hotel){
-  
+  console.log(`checking hotel id ${hotel._id}`)
   console.log(`checking hotel has amenities ${hotel.amenities}`)
   console.log("checking state amenities", amenitiesFromState);
   
@@ -46,7 +46,7 @@ if(hotel){
 
           {/* Booking Sidebar */}
           <div className="w-1/3">
-            <BookingSidebar roomTypes={hotel.roomTypes} hotelName={hotel.name}  hotelLocation={hotel.location}  hotelRating={foundTheWord} hotelImages={hotel.images}/>
+            <BookingSidebar hotelId={hotel._id}  roomTypes={hotel.roomTypes} hotelName={hotel.name}  hotelLocation={hotel.location}  hotelRating={foundTheWord} hotelImages={hotel.images}/>
           </div>
         </div>
       </div>
