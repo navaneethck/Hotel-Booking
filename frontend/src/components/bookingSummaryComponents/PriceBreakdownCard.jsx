@@ -19,9 +19,37 @@ const roomTypeThruClr = () =>
     ? roomTypes?.[1]?.name
     : "Nothing is gotten";
 
-console.log(roomTypeThruClr());
+  const canProceed =
+  user &&
+  formData.firstName &&
+  formData.lastName &&
+  formData.email &&
+  formData.phone;
 
-  const handleSubmit = async(e)=>{
+  const TotalNightsCal = (checkIn, checkOut) => {
+  const checkInDate = new Date(checkIn);
+  const checkOutDate = new Date(checkOut);
+
+  const diffTime = checkOutDate - checkInDate;
+  const nights = diffTime / (1000 * 60 * 60 * 24);
+
+  return nights;
+  };
+  const TotalNights=TotalNightsCal(checkIn,checkOut);
+  const totalPricePerNight =TotalNights*totalPrice;
+
+  const finalData={
+     hotelId,
+     checkIn,
+     checkOut,
+     roomType:roomTypeThruClr(),
+     totalNumOfRooms:totalNumOfRooms,
+     guests: { adults: guest },
+     totalPrice:totalPrice,
+     totalPricePerNight
+  }
+
+  const handleSubmitForm = async(e)=>{
     e.preventDefault();
     if(!user){
       alert("Please log in to continue");
@@ -45,30 +73,33 @@ console.log(roomTypeThruClr());
       })
 
       const result = await response.json();
-      result?.success === true ? navigate('/payment') : alert("something gone wrong on form submit");
+      // result?.success === true ? navigate('/payment') : alert("something gone wrong on form submit");
+    if(result?.success === true){
+  try {
+    const bookingResponse = await fetch(`${import.meta.env.VITE_API_URI}/api/booking/booking`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(finalData),
+    });
+    const bookingResult = await bookingResponse.json();
+    if (bookingResult?.success === true) {
+      console.log(bookingResult.message);
+      navigate('/payment'); 
+    } else {
+      console.log(bookingResult.error || 'Booking failed');
+    }
+  } catch (err) {
+    console.error("Error:", err);
+  }
+  }
        
     }catch(err){
       console.error("Error:", err);
     }
   }
-  const canProceed =
-  user &&
-  formData.firstName &&
-  formData.lastName &&
-  formData.email &&
-  formData.phone;
 
-  const TotalNightsCal = (checkIn, checkOut) => {
-  const checkInDate = new Date(checkIn);
-  const checkOutDate = new Date(checkOut);
 
-  const diffTime = checkOutDate - checkInDate;
-  const nights = diffTime / (1000 * 60 * 60 * 24);
 
-  return nights;
-  };
-  const TotalNights=TotalNightsCal(checkIn,checkOut);
-  const totalPricePerNight =TotalNights*totalPrice;
   return(
   <div className="bg-white p-6 rounded-lg shadow-md">
     <h3 className="text-xl font-bold mb-4">Price Breakdown</h3>
@@ -91,7 +122,7 @@ console.log(roomTypeThruClr());
     <div className="border-t pt-4 mb-4">
       <div className="flex justify-between text-xl font-bold">
         <span>Total Amount</span>
-        <span className="text-blue-700">{totalPricePerNight-3060-2500}</span>
+        <span className="text-blue-700">₹{Math.max(totalPricePerNight - 3060 - 2500, 0)}</span>
       </div>
       <p className="text-sm text-gray-600 mt-1">For {TotalNights} nights, {guest} guests</p>
     </div>
@@ -104,7 +135,7 @@ console.log(roomTypeThruClr());
     </div>
 
     <button
-      onClick={handleSubmit}
+      onClick={handleSubmitForm}
       disabled={!canProceed}
       className={`w-full py-3 font-bold rounded-lg text-lg transition-colors
         ${canProceed

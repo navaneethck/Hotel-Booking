@@ -21,6 +21,10 @@ checkOutDate:{
     type:Date,
     required:true
 },
+totalNights:{
+  type: Number,
+  required: true
+},
 roomType: {
   type: String,
   enum: ['Standard', 'Deluxe', 'Suite'],
@@ -30,6 +34,11 @@ roomType: {
     type: Number,
     required: true
   },
+  totalNumOfRooms: {
+  type: Number,
+  required: true,
+  min: 1
+},
   status:{
     type:String,
     enum:['pending','confirmed','cancelled','completed'],
