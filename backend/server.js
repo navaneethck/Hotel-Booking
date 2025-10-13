@@ -7,6 +7,7 @@ const authHotel= require('./routes/hotel');
 const authBooking = require('./routes/bookingRoutes');
 const adminAuth = require('./routes/adminAuth');
 const guestAuth = require('./routes/guestDetails');
+const paymentRoutes = require("./routes/paymentRoutes");
 const cookieparser = require('cookie-parser');
 
 const app = express();
@@ -27,6 +28,7 @@ app.use('/api/hotels',authHotel)
 app.use('/api/booking',authBooking);
 app.use('/api/All-bookings',adminAuth);
 app.use('/api/guest',guestAuth);
+app.use("/api/payment", paymentRoutes);
 
 
 connectedDB()

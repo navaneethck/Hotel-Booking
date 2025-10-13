@@ -9,6 +9,7 @@ const{cancelBooking}=require('../controller/cancelBooking');
 router.get('/check-availability',checkAvailability);
 router.post('/booking',createBooking);
 router.get('/Show-All-Bookings',getUserBooking);
-router.patch('/cancel-Booking/:bookingId',cancelBooking)
+router.patch('/cancel-Booking/:bookingId',cancelBooking);
+
 
 module.exports = router;
