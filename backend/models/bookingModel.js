@@ -25,11 +25,11 @@ totalNights:{
   type: Number,
   required: true
 },
-roomType: {
+roomType: [{
   type: String,
   enum: ['Standard', 'Deluxe', 'Suite'],
   required: true
-},
+}],
   totalAmount: {
     type: Number,
     required: true

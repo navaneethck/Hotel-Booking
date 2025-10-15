@@ -16,7 +16,13 @@ const checkRoomAvailability = async ({ hotelId, checkIn, checkOut, roomType, tot
     const hotel = await Hotel.findById(hotelId);
     if (!hotel) return { success: false, message: 'Hotel not found' };
 
-    const roomTypeData = hotel.roomTypes.find(rt => rt.name.toLowerCase() === roomType.toLowerCase());
+    let selectedRoomTypes = roomType.split("&").map(r => r.trim());
+    
+    const roomTypeData = hotel.roomTypes.filter(rt =>
+      selectedRoomTypes.some(sel => rt.name.toLowerCase() === sel.toLowerCase())
+    );
+    const totalRoomsAvailable = roomTypeData.reduce((sum, rt) => sum + rt.totalRooms, 0);
+
     if (!roomTypeData) return { success: false, message: 'Room type not found' }
     else{
       console.log(`the roomtype data ${roomTypeData}`)
@@ -24,14 +30,15 @@ const checkRoomAvailability = async ({ hotelId, checkIn, checkOut, roomType, tot
   
     const overlappingBookings = await Booking.find({
       hotel: hotelId,
-      roomType,
+      roomType:{ $in: selectedRoomTypes },
       status: { $in: ['pending', 'confirmed'] },
       checkInDate: { $lt: checkOutDate },
       checkOutDate: { $gt: checkInDate}
     });
 
     const totalBookedRooms = overlappingBookings.reduce((sum, b) => sum + b.totalNumOfRooms, 0);
-    const availRooms = roomTypeData.totalRooms - totalBookedRooms;
+    const availRooms = totalRoomsAvailable - totalBookedRooms;
+
     const isAvailable = availRooms >= totalNumOfRooms;
      
     const totalNights = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));

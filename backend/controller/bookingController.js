@@ -14,11 +14,11 @@ const createBooking = async(req,res)=>{
       totalPrice,
       totalPricePerNight
       } = req.body;
-
+console.log(`checking the roomtype${roomType}`)
       const result = await checkRoomAvailability ({hotelId, checkIn, checkOut, roomType, totalNumOfRooms,totalPricePerNight,totalPrice});
 
       if(!result.success){
-        console.log(`the error message of checkroomavi  ${result.message}`)
+        console.log(`the error message of check room avi  ${result.message}`)
         return res.status(400).json({success:false,message:result.message});
       }else{
         console.log(`result got success ${JSON.stringify(result)}`);
@@ -30,11 +30,12 @@ const createBooking = async(req,res)=>{
       }else{
         console.log(`the total night ${totalNights}`)
       }
+      const selectedRoomTypes = roomType.split("&").map(r => r.trim());
       const newBooking = new Booking({
 
         user:"685a51604df158309afbe600",
         hotel: hotelId,
-        roomType:roomType,
+        roomType:selectedRoomTypes,
         totalNumOfRooms:totalNumOfRooms,
         checkInDate:checkIn,
         checkOutDate:checkOut,
