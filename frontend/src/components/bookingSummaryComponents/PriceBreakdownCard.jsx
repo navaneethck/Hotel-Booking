@@ -3,6 +3,8 @@ import { UseUserContext } from "../../contexts/userContext";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useRoomSeceltionContext } from "../../contexts/roomSelectionContext";
+import { InitRazorpay } from "./InitRazorpay";
+import { useEffect } from "react";
 export const PriceBreakdown = ({hotelId,roomTypes,count,count1,totalPrice,checkIn,checkOut,guest,formData}) => {
   const { user } = UseUserContext();
   const {purple,purple2} = useRoomSeceltionContext();
@@ -20,7 +22,6 @@ const roomTypeThruClr = () =>
     : "Nothing is gotten";
 
   const canProceed =
-  user &&
   formData.firstName &&
   formData.lastName &&
   formData.email &&
@@ -48,6 +49,21 @@ const roomTypeThruClr = () =>
      totalPrice:totalPrice,
      totalPricePerNight
   }
+
+      useEffect(() => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.async = true;
+
+      script.onload = () => {
+        console.log("Razorpay SDK loaded successfully");
+      };
+      script.onerror = () => {
+        alert("Razorpay SDK failed to load. Check your internet connection.");
+      };
+
+      document.body.appendChild(script);
+    }, []);
 
   const handleSubmitForm = async(e)=>{
     e.preventDefault();
@@ -82,9 +98,28 @@ const roomTypeThruClr = () =>
       body: JSON.stringify(finalData),
     });
     const bookingResult = await bookingResponse.json();
+
     if (bookingResult?.success === true) {
-      console.log(bookingResult.message);
-      navigate('/payment'); 
+      console.log("loging the booking result",bookingResult.newBooking._id)
+      {alert("success")}
+      // navigate('/payment'); 
+      const bookingID = bookingResult.newBooking._id;
+
+    const response = await fetch(`${import.meta.env.VITE_API_URI}/api/payment/create-order`,{
+        method:'POST',
+        headers:{
+          'Content-Type': 'application/json'
+        },
+        body:JSON.stringify({bookingId:bookingID})
+      })
+      
+      const Order = await response.json();
+      if (!response.ok) throw new Error(Order.message || "Error creating Razorpay order");
+
+      const { order, key, bookingId } = Order;
+      InitRazorpay(order,key,bookingId);
+
+    
     } else {
       console.log(bookingResult.error || 'Booking failed');
     }
