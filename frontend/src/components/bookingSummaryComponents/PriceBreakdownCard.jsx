@@ -38,6 +38,7 @@ const roomTypeThruClr = () =>
   };
   const TotalNights=TotalNightsCal(checkIn,checkOut);
   const totalPricePerNight =TotalNights*totalPrice;
+  const finalPrice = Math.max(totalPricePerNight - 3060 - 2500, 0);
 
   const finalData={
      hotelId,
@@ -47,7 +48,8 @@ const roomTypeThruClr = () =>
      totalNumOfRooms:totalNumOfRooms,
      guests: { adults: guest },
      totalPrice:totalPrice,
-     totalPricePerNight
+     totalPricePerNight,
+     finalPrice
   }
 
       useEffect(() => {
@@ -89,7 +91,6 @@ const roomTypeThruClr = () =>
       })
 
       const result = await response.json();
-      // result?.success === true ? navigate('/payment') : alert("something gone wrong on form submit");
     if(result?.success === true){
   try {
     const bookingResponse = await fetch(`${import.meta.env.VITE_API_URI}/api/booking/booking`, {
@@ -98,11 +99,9 @@ const roomTypeThruClr = () =>
       body: JSON.stringify(finalData),
     });
     const bookingResult = await bookingResponse.json();
-
     if (bookingResult?.success === true) {
       console.log("loging the booking result",bookingResult.newBooking._id)
       {alert("success")}
-      // navigate('/payment'); 
       const bookingID = bookingResult.newBooking._id;
 
     const response = await fetch(`${import.meta.env.VITE_API_URI}/api/payment/create-order`,{
@@ -117,23 +116,18 @@ const roomTypeThruClr = () =>
       if (!response.ok) throw new Error(Order.message || "Error creating Razorpay order");
 
       const { order, key, bookingId } = Order;
-      InitRazorpay(order,key,bookingId);
-
-    
-    } else {
-      console.log(bookingResult.error || 'Booking failed');
-    }
+      InitRazorpay(order,key,bookingId,navigate);
+    } 
   } catch (err) {
-    console.error("Error:", err);
+    console.error("Error while on Booking:", err);
+    alert(bookingResult.message || "Something went wrong!");
   }
-  }
-       
+  }    
     }catch(err){
       console.error("Error:", err);
+      alert(result.message || "Something went wrong!")
     }
   }
-
-
 
   return(
   <div className="bg-white p-6 rounded-lg shadow-md">
@@ -157,7 +151,7 @@ const roomTypeThruClr = () =>
     <div className="border-t pt-4 mb-4">
       <div className="flex justify-between text-xl font-bold">
         <span>Total Amount</span>
-        <span className="text-blue-700">₹{Math.max(totalPricePerNight - 3060 - 2500, 0)}</span>
+        <span className="text-blue-700">₹{finalPrice}</span>
       </div>
       <p className="text-sm text-gray-600 mt-1">For {TotalNights} nights, {guest} guests</p>
     </div>

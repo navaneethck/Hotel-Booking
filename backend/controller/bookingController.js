@@ -12,7 +12,8 @@ const createBooking = async(req,res)=>{
       totalNumOfRooms,
       guests,
       totalPrice,
-      totalPricePerNight
+      totalPricePerNight,
+      finalPrice
       } = req.body;
 console.log(`checking the roomtype${roomType}`)
       const result = await checkRoomAvailability ({hotelId, checkIn, checkOut, roomType, totalNumOfRooms,totalPricePerNight,totalPrice});
@@ -41,7 +42,7 @@ console.log(`checking the roomtype${roomType}`)
         checkOutDate:checkOut,
         status: 'pending',
         totalNights:totalNights,
-        totalAmount:totalPricePerNight,
+        totalAmount:finalPrice,
         guests:guests,
       })
 

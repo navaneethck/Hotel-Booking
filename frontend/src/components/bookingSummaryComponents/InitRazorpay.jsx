@@ -1,4 +1,6 @@
-export const InitRazorpay = (order,key,bookingId)=>{
+
+
+export const InitRazorpay = (order,key,bookingId,navigate)=>{
     const options = {
         key:key,
         amount:order.amount,
@@ -7,6 +9,7 @@ export const InitRazorpay = (order,key,bookingId)=>{
         description: "Booking Payment",
         order_id: order.id,
         handler: async function (response){
+          try{
             const verifyResponse = await fetch(`${import.meta.env.VITE_API_URI}/api/payment/verify`,{
             method:'POST',
             headers:{
@@ -16,10 +19,22 @@ export const InitRazorpay = (order,key,bookingId)=>{
              razorpay_order_id: response.razorpay_order_id,
              razorpay_payment_id: response.razorpay_payment_id,
              razorpay_signature: response.razorpay_signature,
-             bookingId: bookingId
+             bookingId
             })
          })
-        alert(verifyResponse.message)
+        const data = await verifyResponse.json();
+        alert(data.message);
+
+        if (data.success){
+          navigate('/payment')
+          console.log(`the verified the payment ${data.success}`)
+        } else {
+          alert('something went wrong')
+        }
+      }catch(err){
+        console.error('Payment verification failed:', err);
+        alert('Payment verification failed. Please try again.');
+      }
         },
         prefill: {
         name: "Navan",  

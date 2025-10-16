@@ -56,7 +56,7 @@ const verifyPayment = async (req,res)=>{
              return res.status(400).json({ success: false, message: "Invalid signature" });
             }
 
-            const booking = await Booking.find(bookingId);
+            const booking = await Booking.findById({ _id: bookingId });
             if(!booking){
              return res.status(404).json({ success: false, message: "Booking not found" });
             }
