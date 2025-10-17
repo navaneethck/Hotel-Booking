@@ -45,9 +45,19 @@ export const SearchBar = () => {
           value={guest}
           onChange={handleGuest}
         />
-        <button className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700" onClick={()=>navigate('/searchresults?'+params.toString())}>
-          Search
-        </button>
+      <button
+        className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 cursor-pointer"
+        onClick={() => {
+          if (!guest || !destination) {
+            alert("Please select both destination and guest details");
+            return; 
+          } else {
+            navigate('/searchresults?' + params.toString());
+          }
+        }}
+      >
+        Search
+      </button>
       </div>
     </div>
   </section>

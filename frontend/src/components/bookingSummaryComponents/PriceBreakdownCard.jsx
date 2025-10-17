@@ -166,7 +166,7 @@ const roomTypeThruClr = () =>
     <button
       onClick={handleSubmitForm}
       disabled={!canProceed}
-      className={`w-full py-3 font-bold rounded-lg text-lg transition-colors
+      className={`w-full py-3 font-bold rounded-lg text-lg transition-colors cursor-pointer
         ${canProceed
           ? "bg-yellow-400 text-black hover:bg-yellow-300"
           : "bg-gray-300 text-gray-600 cursor-not-allowed"

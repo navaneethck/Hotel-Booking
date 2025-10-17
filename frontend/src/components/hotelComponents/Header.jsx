@@ -1,6 +1,6 @@
 
 import { UseUserContext } from "../../contexts/userContext";
-
+import { Link } from "react-router-dom";
 export const Header = () => {
   const { user } = UseUserContext();
 
@@ -17,11 +17,11 @@ export const Header = () => {
             </div>
           ) : (
             <>
-              <button className="px-4 py-2 bg-white text-blue-700 rounded-lg font-semibold hover:bg-gray-200 transition">
-                Login
+              <button className="px-4 py-2 bg-white text-blue-700 rounded-lg font-semibold hover:bg-gray-200">
+                <Link to="/login">Login</Link>
               </button>
-              <button className="px-4 py-2 bg-yellow-400 text-black rounded-lg font-semibold hover:bg-yellow-300 transition">
-                Sign Up
+              <button className="px-4 py-2 bg-yellow-400 text-black rounded-lg font-semibold hover:bg-yellow-300">
+                <Link to="/register">Sign Up</Link>
               </button>
             </>
           )}

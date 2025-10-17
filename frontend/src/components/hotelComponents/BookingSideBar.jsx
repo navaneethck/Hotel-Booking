@@ -162,7 +162,7 @@ export const BookingSidebar = ({hotelId,hotelImages,hotelName,roomTypes,hotelLoc
       <Link to={"/bookingsummary"} state={{hotelId,count,count1,hotelImages,guest,checkIn,checkOut,hotelName,hotelLocation,hotelRating,roomTypes,totalSum}}>
       <button
         disabled={disabledIf}  
-        className={`w-full px-6 py-3 font-semibold rounded-lg transition mb-4
+        className={`w-full px-6 py-3 font-semibold rounded-lg transition mb-4 cursor-pointer
           ${disabledIf
             ? "bg-gray-300 text-gray-600 cursor-not-allowed"   
             : "bg-yellow-400 text-black hover:bg-yellow-300"} 
