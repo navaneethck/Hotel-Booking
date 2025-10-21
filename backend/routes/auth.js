@@ -13,7 +13,6 @@ router.post('/register', async (req,res)=>{
         const checkExistingUser = await User.findOne({email});
         if(checkExistingUser){
             return res.status(400).json({message:"user already exists"})
-
         }
         const alowedRoles=['user','admin'];
         const userRole = alowedRoles.includes(role)?role:'user';

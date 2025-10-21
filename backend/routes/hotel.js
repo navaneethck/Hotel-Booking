@@ -47,6 +47,7 @@ router.post('/Add-Hotel', adminAuth, (req, res, next) => {
 
 //toGetTopratingHotels
 router.get('/top-rated-hotels',async(req,res)=>{
+    
     try{
         const topRatedHotels = await Hotel.find({rating:{$gte:4}}).sort({rating:-1}).limit(3);
         res.status(200).json(topRatedHotels)

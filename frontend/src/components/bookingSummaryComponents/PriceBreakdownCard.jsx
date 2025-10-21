@@ -38,7 +38,7 @@ const roomTypeThruClr = () =>
   };
   const TotalNights=TotalNightsCal(checkIn,checkOut);
   const totalPricePerNight =TotalNights*totalPrice;
-  const finalPrice = Math.max(totalPricePerNight - 3060 - 2500, 0);
+  const finalPrice = Math.max(totalPricePerNight + 3060 - 2500, 0);
 
   const finalData={
      hotelId,
