@@ -32,7 +32,6 @@ router.post('/register', async (req,res)=>{
 router.post('/login',async (req,res)=>{
    try{
      const {email,password}=req.body;
-
      const user= await User.findOne({email});
      if(!user){
         return res.status(400).json({message:"user not found"})
@@ -48,17 +47,15 @@ router.post('/login',async (req,res)=>{
     process.env.JWT_SECRET,
     {expiresIn:'1d'}
 );
-
     res.cookie("token", token, {
-    httpOnly: true,         // ✅ JS can't access
-    secure: false,           // ✅ Only over HTTPS (set false for localhost dev)
-    sameSite: "Lax",        // ✅ CSRF protection
-    maxAge: 24 * 60 * 60 * 1000 // one day 
+    httpOnly: true,         
+    secure: process.env.NODE_ENV === "production", 
+    sameSite: "None",       
+    maxAge: 24 * 60 * 60 * 1000 
     });
 
     res.json({
         message: "Login successful",
-        token,
         user:{ id: user._id,
               name: user.name,
               email: user.email,

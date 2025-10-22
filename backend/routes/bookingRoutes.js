@@ -1,5 +1,6 @@
 const express= require('express');
 const router = express.Router();
+const {auth} = require ('../middleware/auth')
 
 const {checkAvailability}=require('../controller/checkAvailabilityController');
 const {createBooking}=require('../controller/bookingController');
@@ -7,9 +8,10 @@ const{getUserBooking}=require('../controller/getUserBooking');
 const{cancelBooking}=require('../controller/cancelBooking');
 
 router.get('/check-availability',checkAvailability);
-router.post('/booking',createBooking);
+router.post('/booking',auth,createBooking);
 router.get('/Show-All-Bookings',getUserBooking);
 router.patch('/cancel-Booking/:bookingId',cancelBooking);
+
 
 
 module.exports = router;
