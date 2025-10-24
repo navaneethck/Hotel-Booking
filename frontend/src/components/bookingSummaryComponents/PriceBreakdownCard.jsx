@@ -96,6 +96,7 @@ const roomTypeThruClr = () =>
     const bookingResponse = await fetch(`${import.meta.env.VITE_API_URI}/api/booking/booking`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify(finalData),
     });
     const bookingResult = await bookingResponse.json();

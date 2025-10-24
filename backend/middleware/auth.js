@@ -9,6 +9,7 @@ const auth= async(req,res,next)=>{
     try{
         // const token =req.header('Authorization')?.replace('Bearer ','');
         const token = req.cookies.token;
+        console.log(`requested token from cookie  ${token}`)
         if(!token){
             return res.status(401).json({message:"No token,access denied"});
         }

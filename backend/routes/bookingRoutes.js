@@ -13,5 +13,4 @@ router.get('/Show-All-Bookings',getUserBooking);
 router.patch('/cancel-Booking/:bookingId',cancelBooking);
 
 
-
 module.exports = router;

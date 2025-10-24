@@ -47,12 +47,21 @@ router.post('/login',async (req,res)=>{
     process.env.JWT_SECRET,
     {expiresIn:'1d'}
 );
+//in production
     res.cookie("token", token, {
     httpOnly: true,         
     secure: process.env.NODE_ENV === "production", 
     sameSite: "None",       
     maxAge: 24 * 60 * 60 * 1000 
     });
+
+//in local
+//     res.cookie("token", token, {
+//   httpOnly: true,         // JS cannot access the cookie
+//   secure: false,          // set true in production (HTTPS)
+//   sameSite: "Lax",        // for cross-site requests
+//   maxAge: 24*60*60*1000
+// });
 
     res.json({
         message: "Login successful",
