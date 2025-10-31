@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
+
+
 
 const Register = () => {
-
+  const navigate = useNavigate();
   const[data,setData] = useState({name:'',email:'',password:''});
-
+  
   const getFormData = (e)=>{
     const{name,value}=e.target;
     setData((prevState)=>({
@@ -32,9 +35,8 @@ const Register = () => {
 
       // console.log('response from backend',result)
       alert(result?.message||'something went wrong');
-      
       setData({ name: '', email: '', password: '' });
-      
+      navigate('/');
 
     }catch(error){
         console.error("Error:", error);

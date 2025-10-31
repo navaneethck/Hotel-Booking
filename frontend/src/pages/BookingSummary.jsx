@@ -40,7 +40,7 @@ const BookingSummaryPage = () => {
             <CancellationPolicy />
           </div>
 
-          {/* Right Column - Summary & Payment */}
+         
           <div className="w-1/3 space-y-6">
             <BookingSummary hotelImages={hotelImages} hotelName={hotelName}hotelRating={hotelRating} hotelLocation={hotelLocation} 
              guest={guest} checkIn={checkIn} checkOut={checkOut} roomTypes={roomTypes} />
