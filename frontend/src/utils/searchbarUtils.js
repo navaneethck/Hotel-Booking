@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export const DatePicker = (initialCheckIn, initialCheckOut)=>{
-  const formatDate =  (date)=> date.toISOString().split('T')[0];
+  const formatDate =  (date)=> date.toISOString().split('T')[0];                                                                                                                                                                                                                         
 
   const today = new Date();
   const tomorrow = new Date();

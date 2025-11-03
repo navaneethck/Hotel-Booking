@@ -35,7 +35,7 @@ export const SearchBar = () => {
         </div>
         <div className="flex flex-col">
         <label className="text-sm font-semibold mb-1 text-gray-700">Check-Out</label>
-        <input type="date" value={checkOut} min={checkIn} onChange={(e)=>setCheckOut(e.target.value)} className="p-3 rounded-md border text-black" />
+        <input type="date" value={checkOut} min={formatDate(new Date(new Date(checkIn).setDate(new Date(checkIn).getDate() + 1)))} onChange={(e)=>setCheckOut(e.target.value)} className="p-3 rounded-md border text-black" />
         </div>
         <input
           type="number"
