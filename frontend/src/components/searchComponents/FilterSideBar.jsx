@@ -45,24 +45,20 @@ export const FilterSidebar = ({onFilterChange}) => {
           <span>Any Price</span>
           </label>
         <label className="flex items-center">
-          <input type="checkbox" className="mr-2" onChange={()=>handlePriceChange([10000,20000])}/>
-          ₹10000  - ₹20000
+          <input type="checkbox" className="mr-2" onChange={()=>handlePriceChange([5000,10000])}/>
+          ₹5000  - ₹10000
         </label><br />
         <label className="flex items-center">
-          <input type="checkbox" className="mr-2" onChange={()=>handlePriceChange([20000,28000])}/>
-          ₹20000  - ₹28000
+          <input type="checkbox" className="mr-2" onChange={()=>handlePriceChange([10000,15000])}/>
+          ₹10000  - ₹15000
         </label><br />
         <label className="flex items-center">
-          <input type="checkbox" className="mr-2" onChange={()=>handlePriceChange([30000,40000])} />
-          ₹30000  - ₹40000
+          <input type="checkbox" className="mr-2" onChange={()=>handlePriceChange([15000,20000])} />
+          ₹15000  - ₹20000
         </label><br />
         <label className="flex items-center">
-          <input type="checkbox" className="mr-2" onChange={()=>handlePriceChange([40000,50000])}/>
-          ₹40000  - ₹50000
-        </label><br />
-        <label className="flex items-center">
-          <input type="checkbox" className="mr-2" onChange={()=>handlePriceChange([50000,60000])}/>
-          ₹50000  - ₹60000
+          <input type="checkbox" className="mr-2" onChange={()=>handlePriceChange([20000,25000])}/>
+          ₹20000  - ₹25000
         </label><br />
       </div>
     </div>
