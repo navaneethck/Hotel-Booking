@@ -1,6 +1,5 @@
 import { useRoomSeceltionContext } from "../../contexts/roomSelectionContext";
-export const BookingSummary = ({hotelImages, guest, checkIn, checkOut, hotelName, hotelLocation, hotelRating, roomTypes,totalPrice}) =>{ 
-         
+export const BookingSummary = ({hotelImages, guest, checkIn, checkOut, hotelName, hotelLocation, hotelRating, roomTypes,totalPrice}) =>{      
         const formatDate = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('en-US', {
@@ -22,7 +21,7 @@ export const BookingSummary = ({hotelImages, guest, checkIn, checkOut, hotelName
         return nights;
         };
 
-        const totalPricePerNight = TotalNights(checkIn,checkOut)*totalPrice;
+        // const totalPricePerNight = TotalNights(checkIn,checkOut)*totalPrice;
 
         const {purple,purple2} =useRoomSeceltionContext();
         return(
