@@ -26,7 +26,7 @@ export const InitRazorpay = (order,key,bookingId,navigate)=>{
         alert(data.message);
 
         if (data.success){
-          navigate('/payment')
+          navigate('/')
           console.log(`the verified the payment ${data.success}`)
         } else {
           alert('something went wrong')

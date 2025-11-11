@@ -70,7 +70,7 @@ export const SearchBar = () => {
 
           {/* Search button */}
           <button
-            className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 w-full md:w-auto"
+            className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 w-full md:w-auto cursor-pointer"
             onClick={() => {
               if (!guest || !destination) {
                 alert("Please select both destination and guest details");

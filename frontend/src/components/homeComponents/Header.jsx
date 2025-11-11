@@ -13,24 +13,25 @@ export const Header = () => {
         <h1 className="text-xl sm:text-2xl font-bold">Rest.com</h1>
 
         {/* Desktop menu */}
-        <div className="hidden sm:flex space-x-4">
+        <div className="hidden sm:flex space-x-4 items-center">
           {user ? (
             <div className="relative group">
-              <h3 className="cursor-pointer font-semibold hover:bg-purple-400 rounded-md px-3 py-1">
-                Hello traveler👋
+              <h3 className="cursor-pointer font-semibold hover:bg-purple-500 rounded-md px-3 py-1 transition">
+                Hello traveler 👋
               </h3>
-              <div className="border-gray-400 absolute right-0 top-full w-56 bg-white text-black rounded-md shadow-lg hidden group-hover:block">
+              {/* Hover dropdown (desktop only) */}
+              <div className="absolute right-0 top-full w-56 bg-white text-black rounded-md shadow-lg opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-2 transition-all duration-200 pointer-events-none group-hover:pointer-events-auto">
                 <div className="bg-purple-300 p-2 rounded-t-md">
                   <p className="text-sm">
                     This is your account <br />
                     <span className="font-semibold">{user.email}</span>
                   </p>
                 </div>
-                <ul>
-                  <li className="pt-2">
+                <ul className="py-2">
+                  <li>
                     <Link
                       to="/myprofile"
-                      className="block px-2 py-1 hover:bg-purple-300"
+                      className="block px-3 py-2 hover:bg-purple-200 rounded"
                     >
                       My Account
                     </Link>
@@ -38,7 +39,7 @@ export const Header = () => {
                   <li>
                     <Link
                       to="/bookingsummary"
-                      className="block px-2 py-1 hover:bg-purple-300"
+                      className="block px-3 py-2 hover:bg-purple-200 rounded"
                     >
                       Booking Summary
                     </Link>
@@ -46,7 +47,7 @@ export const Header = () => {
                   <li>
                     <button
                       onClick={logout}
-                      className="w-full text-left block px-2 py-1 pl-20 hover:bg-purple-300 cursor-pointer"
+                      className="block w-full px-3 py-2 hover:bg-purple-200 rounded cursor-pointer font-semibold text-left"
                     >
                       Logout
                     </button>
@@ -56,39 +57,51 @@ export const Header = () => {
             </div>
           ) : (
             <>
-              <button className="px-4 py-2 bg-white text-blue-700 rounded-lg font-semibold hover:bg-gray-200">
-                <Link to="/login">Login</Link>
-              </button>
-              <button className="px-4 py-2 bg-yellow-400 text-black rounded-lg font-semibold hover:bg-yellow-300">
-                <Link to="/register">Sign Up</Link>
-              </button>
+              <Link
+                to="/login"
+                className="px-4 py-2 bg-white text-blue-700 rounded-lg font-semibold hover:bg-gray-200 transition"
+              >
+                Login
+              </Link>
+              <Link
+                to="/register"
+                className="px-4 py-2 bg-yellow-400 text-black rounded-lg font-semibold hover:bg-yellow-300 transition"
+              >
+                Sign Up
+              </Link>
             </>
           )}
         </div>
 
-        {/* Mobile menu button */}
+        {/* Mobile hamburger */}
         <button
           className="sm:hidden p-2 bg-white text-purple-700 rounded-md font-bold focus:outline-none"
           onClick={() => setMenuOpen(!menuOpen)}
         >
-          ☰
+          {menuOpen ? "✕" : "☰"}
         </button>
       </div>
 
-      {/* Mobile dropdown menu (toggle-based, not hover) */}
-      {menuOpen && (
-        <div className="sm:hidden bg-white text-black shadow-md rounded-b-md">
+      {/* Mobile dropdown */}
+      <div
+        className={`sm:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+          menuOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="bg-white text-black shadow-md rounded-b-md">
           {user ? (
             <>
-              <div className="bg-purple-300 p-3 rounded-t-md text-sm">
-                Hello traveler 👋 <br />
-                <span className="font-semibold">{user.email}</span>
+              <div className="bg-purple-300 p-3 rounded-t-md text-sm text-center">
+                <p>
+                  Hello traveler 👋 <br />
+                  <span className="font-semibold">{user.email}</span>
+                </p>
               </div>
-              <ul className="p-2">
+              <ul className="p-2 space-y-1 text-center">
                 <li>
                   <Link
                     to="/myprofile"
-                    className="block px-3 py-2 hover:bg-purple-200 rounded"
+                    className="block px-3 py-2 hover:bg-purple-100 rounded transition"
                     onClick={() => setMenuOpen(false)}
                   >
                     My Account
@@ -97,7 +110,7 @@ export const Header = () => {
                 <li>
                   <Link
                     to="/bookingsummary"
-                    className="block px-3 py-2 hover:bg-purple-200 rounded"
+                    className="block px-3 py-2 hover:bg-purple-100 rounded transition"
                     onClick={() => setMenuOpen(false)}
                   >
                     Booking Summary
@@ -109,7 +122,7 @@ export const Header = () => {
                       logout();
                       setMenuOpen(false);
                     }}
-                    className="w-full text-left px-3 py-2 hover:bg-purple-200 rounded cursor-pointer"
+                    className="block w-full px-3 py-2 hover:bg-purple-100 rounded transition cursor-pointer font-semibold text-center"
                   >
                     Logout
                   </button>
@@ -120,14 +133,14 @@ export const Header = () => {
             <div className="flex flex-col p-3 space-y-2">
               <Link
                 to="/login"
-                className="block px-3 py-2 bg-gray-200 text-center font-semibold rounded hover:bg-gray-300"
+                className="block px-3 py-2 bg-gray-100 text-center font-semibold rounded hover:bg-gray-200 transition"
                 onClick={() => setMenuOpen(false)}
               >
                 Login
               </Link>
               <Link
                 to="/register"
-                className="block px-3 py-2 bg-yellow-400 text-center font-semibold rounded hover:bg-yellow-300"
+                className="block px-3 py-2 bg-yellow-400 text-center font-semibold rounded hover:bg-yellow-300 transition"
                 onClick={() => setMenuOpen(false)}
               >
                 Sign Up
@@ -135,7 +148,7 @@ export const Header = () => {
             </div>
           )}
         </div>
-      )}
+      </div>
     </header>
   );
 };

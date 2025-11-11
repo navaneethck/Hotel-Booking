@@ -7,46 +7,62 @@ import { HotelGallery } from "../components/hotelComponents/HotelGallery";
 import { HotelInfo } from "../components/hotelComponents/HotelInfo";
 import { Reviews } from "../components/hotelComponents/Reviews";
 import { RoomTypes } from "../components/hotelComponents/RoomType";
-import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
-
 const HotelDetails = () => {
-  const {state} = useLocation();
+  const { state } = useLocation();
   const hotel = state?.hotel;
-  const foundTheWord=state?.foundTheWord;
+  const foundTheWord = state?.foundTheWord;
   const amenitiesFromState = state?.amenitiesFromState;
-if(hotel){
-  console.log(`checking hotel id ${hotel._id}`)
-  console.log(`checking hotel has amenities ${hotel.amenities}`)
-  console.log("checking state amenities", amenitiesFromState);
-  
-}else{
-  console.log('nothing foundon this')
-}
+
+  if (hotel) {
+    console.log(`checking hotel id ${hotel._id}`);
+    console.log(`checking hotel has amenities ${hotel.amenities}`);
+    console.log("checking state amenities", amenitiesFromState);
+  } else {
+    console.log("nothing found on this");
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-      
+
       <div className="max-w-7xl mx-auto py-6 px-4 mt-10">
+        {/* Hotel Gallery */}
         <div className="mb-6">
-          <HotelGallery hotelImages={hotel.images}/>
+          <HotelGallery hotelImages={hotel.images} />
         </div>
 
-        <div className="flex gap-6">
+        {/* Main layout */}
+        <div className="flex flex-col md:flex-row gap-6">
           {/* Main Content */}
-          <div className="w-2/3">
-            <HotelInfo hotelName={hotel.name} hotelPrice={hotel.price} hotelRating={foundTheWord} hotelLocation={hotel.location} />
+          <div className="w-full md:w-2/3">
+            <HotelInfo
+              hotelName={hotel.name}
+              hotelPrice={hotel.price}
+              hotelRating={foundTheWord}
+              hotelLocation={hotel.location}
+            />
             <Amenities amenities={hotel.amenities} />
-            <RoomTypes roomTypes={hotel.roomTypes} amenities={hotel.amenities} amenitiesFromState={amenitiesFromState}/>
-            <Description Description={hotel.description}/>
+            <RoomTypes
+              roomTypes={hotel.roomTypes}
+              amenities={hotel.amenities}
+              amenitiesFromState={amenitiesFromState}
+            />
+            <Description Description={hotel.description} />
             <Reviews />
           </div>
 
           {/* Booking Sidebar */}
-          <div className="w-1/3">
-            <BookingSidebar hotelId={hotel._id}  roomTypes={hotel.roomTypes} hotelName={hotel.name}  hotelLocation={hotel.location}  hotelRating={foundTheWord} hotelImages={hotel.images}/>
+          <div className="w-full md:w-1/3">
+            <BookingSidebar
+              hotelId={hotel._id}
+              roomTypes={hotel.roomTypes}
+              hotelName={hotel.name}
+              hotelLocation={hotel.location}
+              hotelRating={foundTheWord}
+              hotelImages={hotel.images}
+            />
           </div>
         </div>
       </div>
