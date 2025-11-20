@@ -55,7 +55,7 @@ router.post('/login',async (req,res)=>{
     maxAge: 24 * 60 * 60 * 1000 
     });
 
-//in local
+// in local
 //     res.cookie("token", token, {
 //   httpOnly: true,         // JS cannot access the cookie
 //   secure: false,          // set true in production (HTTPS)
