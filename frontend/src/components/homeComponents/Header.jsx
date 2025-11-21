@@ -1,10 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { UseUserContext } from "../../contexts/userContext";
 
 export const Header = () => {
   const { user, logout } = UseUserContext();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false); // mobile menu
+  const [dropdownOpen, setDropdownOpen] = useState(false); // desktop account dropdown
+  const dropdownRef = useRef(null);
+
+  // Close dropdown if clicked outside (for desktop)
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <header className="fixed top-0 left-0 w-full bg-gradient-to-bl from-gray-200 via-purple-400 to-purple-600 text-white shadow-md z-50">
@@ -12,53 +25,59 @@ export const Header = () => {
         {/* Logo */}
         <h1 className="text-xl sm:text-2xl font-bold">Rest.com</h1>
 
-        {/* Desktop menu */}
+        {/* Desktop Menu */}
         <div className="hidden sm:flex space-x-4 items-center">
           {user ? (
-            <div className="relative group">
-              <h3 className="cursor-pointer font-semibold hover:bg-purple-500 rounded-md px-3 py-1 transition">
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className="cursor-pointer font-semibold hover:bg-purple-500 rounded-md px-3 py-1 transition"
+              >
                 Hello traveler 👋
-              </h3>
+              </button>
 
-              {/* Desktop hover dropdown - visually centered items */}
-              <div className="absolute right-0 top-full w-56 bg-white text-black rounded-md shadow-lg opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-2 transition-all duration-200 pointer-events-none group-hover:pointer-events-auto">
-                <div className="bg-purple-300 p-2 rounded-t-md text-center">
-                  <p className="text-sm">
-                    This is your account <br />
-                    <span className="font-semibold">{user.email}</span>
-                  </p>
+              {dropdownOpen && (
+                <div className="absolute right-0 top-full w-56 bg-white text-black rounded-md shadow-lg mt-2 transition-all duration-200">
+                  <div className="bg-purple-300 p-3 rounded-t-md text-center">
+                    <p className="text-sm">
+                      This is your account <br />
+                      <span className="font-semibold">{user.email}</span>
+                    </p>
+                  </div>
+
+                  <ul className="py-2 flex flex-col items-center">
+                    <li className="w-full">
+                      <Link
+                        to="/myprofile"
+                        className="block w-full text-center px-3 py-2 hover:bg-purple-100 rounded transition"
+                        onClick={() => setDropdownOpen(false)}
+                      >
+                        My Account
+                      </Link>
+                    </li>
+                    <li className="w-full">
+                      <Link
+                        to="/bookingsummary"
+                        className="block w-full text-center px-3 py-2 hover:bg-purple-100 rounded transition"
+                        onClick={() => setDropdownOpen(false)}
+                      >
+                        Booking Summary
+                      </Link>
+                    </li>
+                    <li className="w-full">
+                      <button
+                        onClick={() => {
+                          logout();
+                          setDropdownOpen(false);
+                        }}
+                        className="block w-full text-center px-3 py-2 hover:bg-purple-100 rounded transition font-semibold"
+                      >
+                        Logout
+                      </button>
+                    </li>
+                  </ul>
                 </div>
-
-                <ul className="py-2 flex flex-col items-center">
-                  <li className="w-full">
-                    <Link
-                      to="/myprofile"
-                      className="block w-full text-center px-3 py-2 hover:bg-purple-200 rounded transition inline-block"
-                    >
-                      My Account
-                    </Link>
-                  </li>
-
-                  <li className="w-full">
-                    <Link
-                      to="/bookingsummary"
-                      className="block w-full text-center px-3 py-2 hover:bg-purple-200 rounded transition inline-block"
-                    >
-                      Booking Summary
-                    </Link>
-                  </li>
-
-                  <li className="w-full">
-                    <button
-                      onClick={logout}
-                      className="block w-full text-center px-3 py-2 hover:bg-purple-200 rounded transition font-semibold"
-                      aria-label="Logout"
-                    >
-                      Logout
-                    </button>
-                  </li>
-                </ul>
-              </div>
+              )}
             </div>
           ) : (
             <>
@@ -78,24 +97,18 @@ export const Header = () => {
           )}
         </div>
 
-        {/* Mobile hamburger */}
+        {/* Mobile Hamburger */}
         <button
           className="sm:hidden p-2 bg-white text-purple-700 rounded-md font-bold focus:outline-none"
-          onClick={() => setMenuOpen((s) => !s)}
-          aria-expanded={menuOpen}
-          aria-label="Toggle menu"
+          onClick={() => setMenuOpen(!menuOpen)}
         >
           {menuOpen ? "✕" : "☰"}
         </button>
       </div>
 
-      {/* Mobile dropdown (toggle) - centered items */}
-      <div
-        className={`sm:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-          menuOpen ? "max-h-[420px] opacity-100" : "max-h-0 opacity-0"
-        }`}
-      >
-        <div className="bg-white text-black shadow-md rounded-b-md">
+      {/* Mobile Dropdown */}
+      {menuOpen && (
+        <div className="sm:hidden bg-white text-black shadow-md rounded-b-md transition-all duration-300">
           {user ? (
             <>
               <div className="bg-purple-300 p-3 rounded-t-md text-sm text-center">
@@ -133,7 +146,6 @@ export const Header = () => {
                       setMenuOpen(false);
                     }}
                     className="block w-full text-center px-3 py-2 hover:bg-purple-100 rounded transition font-semibold"
-                    aria-label="Logout"
                   >
                     Logout
                   </button>
@@ -159,7 +171,7 @@ export const Header = () => {
             </div>
           )}
         </div>
-      </div>
+      )}
     </header>
   );
 };
