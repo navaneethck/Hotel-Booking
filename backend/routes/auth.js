@@ -56,7 +56,7 @@ router.post('/login',async (req,res)=>{
     });
 
 // in local
-//     res.cookie("token", token, {
+//   res.cookie("token", token, {
 //   httpOnly: true,         // JS cannot access the cookie
 //   secure: false,          // set true in production (HTTPS)
 //   sameSite: "Lax",        // for cross-site requests
